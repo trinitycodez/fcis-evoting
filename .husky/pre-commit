@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# npm run branch || (
+#   echo 'you are not allowed to make any form of changes to dev branch';
+#   false;
+# )
+
+npm run pretty || (
+  echo 'error running pretty';
+  false;
+)
+
+echo 'pretty!'
+
+npm run lint || (
+  echo 'your build failed';
+  false;
+)
+
+echo 'all good'
