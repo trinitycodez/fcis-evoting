@@ -14,7 +14,7 @@ const RootLayout = ({
 }) => {
   return (
     <html lang="en">
-      <body className="flex min-w-[320px] max-w-[1440px] h-screen overflow-y-scroll">
+      <body className="flex min-w-[320px] max-w-[1440px] h-screen overflow-y-scroll font-App-Inter ">
         {children}
       </body>
     </html>

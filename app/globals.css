@@ -8,10 +8,25 @@
   --background-end-rgb: 255, 255, 255;
 }
 
+/* Inter-Thin */
+@font-face {
+  font-family: 'Inter'; 
+  src: local('font'), local('font'), url('/fcis-evoting-system/assets/fonts/Inter-Thin.ttf') format('truetype');
+}
+
 .app-aside {
-  /* color: #4b3102; */
+  /* color: #1a202c; */
   @apply min-w-[320px] min-h-screen max-h-screen;
 }
 .app-container {
   @apply min-w-[320px] w-full ml-auto max-w-[70%] min-h-screen;
 }
+
+/* 
+primary: #814226,
+green: "#2B372A",
+white: "#FAF9F9",
+grey: "#9A9897",
+yellow: "#EAD42D",
+"text-sub": "#1A202C"
+*/
