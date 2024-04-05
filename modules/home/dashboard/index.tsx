@@ -1,8 +1,7 @@
-"use client"
-import { NextPage } from "next";
+import CanvasChart from "./chartCanvas";
 
 // this is the dashboard === '/'
-const HomeDashboard:NextPage = () => {
+const HomeDashboard = () => {
 
   return (
     <>
@@ -11,7 +10,7 @@ const HomeDashboard:NextPage = () => {
           <span>Welcome back, </span>
           <span className="text-app-yellow">Emmanuel</span>
         </p>
-        <div className="flex flex-row justify-around items-start font-normal text-xl text-app-white">
+        <div className="flex flex-row justify-around items-start font-normal text-xl text-app-white mb-16">
           <p className="w-60 max-w-full p-4 bg-app-green rounded-md shadow-lg">
             <span className="inline-flex">Total Numbers of Votes</span>
             <span className="inline-flex font-extrabold text-3xl">0</span>
@@ -21,8 +20,8 @@ const HomeDashboard:NextPage = () => {
             <span className="inline-flex font-extrabold text-3xl">0</span>                  
           </p>
         </div>
-        {/* chartJs */}
-        <canvas id="myChart" style={{"width":"100%","maxWidth":"700px"}}></canvas>
+        {/* chart.Js */}
+        <CanvasChart />
       </section>
     </>
   );

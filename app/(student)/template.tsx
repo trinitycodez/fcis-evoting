@@ -32,8 +32,8 @@ const GeneralPage = ({children}: {children: React.ReactNode}) => {
               links.map((nav, i)=>(
               <>
                 {(pathname===nav.path) && (
-                    <div className="flex flex-nowrap items-center h-10">
-                        <span key={i} className="text-app-yellow">/ </span>&nbsp;<span className="text-app-primary text-base">{nav.name}</span>
+                    <div key={i} className="flex flex-nowrap items-center h-10">
+                        <span key={i} className="text-app-yellow">/ </span>&nbsp;<span key={i} className="text-app-primary text-base">{nav.name}</span>
                     </div>
                 )}
               </>))

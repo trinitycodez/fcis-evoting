@@ -13,6 +13,10 @@
   font-family: 'Inter'; 
   src: local('font'), local('font'), url('/fcis-evoting-system/assets/fonts/Inter-Thin.ttf') format('truetype');
 }
+.def-table tr td, th {
+  border: 1px solid #9A9897;
+  padding: .3rem;
+}
 
 .app-aside {
   /* color: #1a202c; */

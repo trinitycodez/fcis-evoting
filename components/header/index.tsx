@@ -30,17 +30,15 @@ export const HeaderIndex = () => {
           <span className="inline-flex w-[18.5rem] font-bold text-xl break-keep">
             OLOWOYORI EMMANUEL TAIWO
           </span>
-          {/* do not forget the ellipsis '...' for username */}
+          {/* do not forget username should not be more than two whitespaces */}
         </div>
         <div className="flex flex-col justify-between p-4 pr-2 border-t border-app-grey ">
           <ul className="flex flex-col list-none gap-1 font-normal text-lg">
             {/* navigations at the side-bar */}
             {
               links.map((nav, i) => (
-                <li key={i} className={`hover:border-l-2 rounded-tl-sm rounded-bl-sm hover:bg-app-green/90 hover:text-app-white hover:border-l-app-yellow hover:font-bold p-1 transition-colors ${pathname === nav.path ? "font-bold border-l-2 border-l-app-yellow bg-app-green/90 text-app-white":""}`}>
-                  <Link                    
-                    href={nav.path}
-                  >
+                <li key={i} className={`hover:border-l-2 rounded-tl-sm rounded-bl-sm hover:bg-app-green/90 hover:text-app-white hover:border-l-app-yellow hover:font-bold p-1 transition-all duration-75 ${pathname === nav.path ? "font-bold border-l-2 border-l-app-yellow bg-app-green/90 text-app-white":""}`}>
+                  <Link href={nav.path}>
                     {nav.name}
                   </Link>                
                 </li>
