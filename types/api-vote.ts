@@ -9,6 +9,6 @@ export interface APIVotes {
             NumRegVoters: number,
             Winner: string[],
             Total?: number,
-        }[]
-    }[]
+        }[],
+    }[],
 }

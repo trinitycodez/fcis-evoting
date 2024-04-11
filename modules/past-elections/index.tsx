@@ -85,7 +85,7 @@ const voteTableTest = () => {
     cellNodeElementTest.push(
       <details className="mb-3 p-2 pb-4 shadow-md bg-app-white  rounded-md hover:-translate-y-1 transition-all duration-75">
         <summary className="text-xl leading-[1.875rem] outline-none">{totalApiSession[h].year} Academic Session</summary>
-        <table className="def-table text-center w-[50rem] mt-5 bg-app-white text-base">
+        <table className="def-table text-center w-[50rem] mt-14 bg-app-white text-base">
           <thead className="border-y border-app-grey">
             <tr>
               <th>Port-folio</th>

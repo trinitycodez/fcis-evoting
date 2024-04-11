@@ -5,12 +5,12 @@ const HomeDashboard = () => {
 
   return (
     <>
-      <section className="pt-10 pb-10">
-        <p className="font-extrabold text-xl mb-8">
+      <section className="pt-10 pb-10 flex flex-col justify-center items-center">
+        <p className="font-extrabold text-xl mb-10 w-full">
           <span>Welcome back, </span>
           <span className="text-app-yellow">Emmanuel</span>
         </p>
-        <div className="flex flex-row justify-around items-start font-normal text-xl text-app-white mb-16">
+        <div className="flex flex-row justify-around items-start font-normal text-xl text-app-white mb-16 w-full">
           <p className="w-60 max-w-full p-4 bg-app-green rounded-md shadow-lg">
             <span className="inline-flex">Total Numbers of Votes</span>
             <span className="inline-flex font-extrabold text-3xl">0</span>

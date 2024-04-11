@@ -1,5 +1,3 @@
 import { SVGProps } from "react";
 
-export interface SvgProps {
-    props:SVGProps<SVGSVGElement>
-}
+export type SvgProps = SVGProps<SVGSVGElement>
