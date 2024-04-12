@@ -20,7 +20,7 @@ const HomeDashboard = () => {
             <span className="inline-flex font-extrabold text-3xl">0</span>                  
           </p>
         </div>
-        {/* chart.Js */}
+        {/* chart */}
         <CanvasChart />
       </section>
     </>

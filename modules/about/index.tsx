@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import Image from 'next/image';
-import imgLogo from "@/assets/images/bg-placeholder.png";
+import imgLogo from "@/assets/images/cissa.png";
 
 const arrDepts = [
     {name: "Information Technology", image: imgLogo},
@@ -25,10 +25,10 @@ const AboutIndex: NextPage = () => {
         </div>
         <div className="flex flex-col items-center">
             <h2 className="font-bold text-[2.5rem] leading-[3rem] mb-10 text-app-primary">5 Awesome Departments.</h2>
-            <div className="flex flex-row flex-wrap items-center justify-center gap-7">
+            <div className="flex flex-row flex-wrap items-start justify-center gap-7">
                 {
                     arrDepts.map((dept, i)=> (
-                        <div key={i} className="flex flex-col w-64 p-4 gap-3 rounded-2xl shadow-app-box">
+                        <div key={i} className="flex flex-col w-64 p-4 gap-3 rounded-2xl shadow-app-box bg-app-white">
                             <Image
                                 src={dept.image}
                                 alt={dept.name}

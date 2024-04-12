@@ -1,7 +1,15 @@
-// import React from 'react'
+import LoginIndex from "@/modules/login"
+import { Metadata, NextPage } from "next"
 
-export const LoginPage = () => {
+export const metadata: Metadata = {
+  title: "Login | FCIS-Evoting",
+}
+
+const LoginPage:NextPage = () => {
+  
   return (
-    <div>LoginPage</div>
+    <LoginIndex />
   )
 }
+
+export default LoginPage
