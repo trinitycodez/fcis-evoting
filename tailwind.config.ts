@@ -11,8 +11,8 @@ const config: Config = {
   ],
   theme: {
     screens: {
-      xs: "320px",
-      // xp: "375px",
+      xs: "0px",
+      xp: "425px",
       ...defaultScreens.screens,
     },
     extend: {

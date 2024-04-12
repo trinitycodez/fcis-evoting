@@ -27,7 +27,7 @@ export const HeaderIndex = ({value, stateToggle}:propsType) => {
     <>
       <header className="flex flex-col justify-between w-[320px] tracking-[.88px]">
         <div className="p-4 pr-2 flex flex-col gap-4">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-start">
             <div className="flex relative">
               <Image src={profile} alt="profile avatar" height={40} width={40} className="rounded-full text-center mb-1" />
               <EditIcon width={20} height={20} className="absolute -right-3 bottom-1" />

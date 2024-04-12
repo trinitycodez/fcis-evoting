@@ -6,12 +6,12 @@ import { LogoPropsType } from "@/types/logo";
 const Logo = ({layer}:LogoPropsType) => {
   const {layerImage, layerText, layerWrapper} = layer;
   const toggleWrap = layerWrapper? "flex-col justify-center gap-4 opacity-80 ":"flex-nowrap ";
-  const toggleImg = layerImage.border ? "":"rounded-full";
-  const toggleTxt = layerText? "text-app-white text-3xl tracking-wider ":"text-app-primary text-xl ml-2";
+  const toggleImg = layerImage.border ? "xs:w-[30rem] sm:w-[320px]":"rounded-full";
+  const toggleTxt = layerText? "text-app-white xs:text-2xl md:text-3xl tracking-wider ":"text-app-primary text-xl ml-2";
 
   return (
     <>
-      <Link href={`${layerWrapper? "#":"/"}`} className={`flex ${toggleWrap} items-center`} >
+      <Link href={`${layerWrapper? "#":"/"}`} className={`flex items-center ${toggleWrap} `} >
         <Image
           src={logo}
           alt={"cissa logo"}
@@ -20,7 +20,7 @@ const Logo = ({layer}:LogoPropsType) => {
           className={`${toggleImg} `}
           priority
         />
-        <span className={`${toggleTxt} font-bold leading-[1.875rem] `}>CISSA</span>
+        <span className={`font-bold leading-[1.875rem] ${toggleTxt} `}>CISSA</span>
       </Link>
     </>
   );

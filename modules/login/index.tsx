@@ -79,8 +79,8 @@ const LoginIndex = () => {
   
   
   return (
-    <div className='flex flex-col text-left w-80 gap-6'>
-      <h2 className='font-extrabold text-app-primary text-3xl text-center'>Login</h2>
+    <div className='flex flex-col text-left xs:w-60 xp:w-[17rem] sm:w-72 lg:w-80 gap-6'>
+      <h2 className='font-extrabold text-app-primary xs:text-2xl md:text-3xl text-center'>Login</h2>
       <form method="POST" onSubmit={submitHandler} id="form_signup" noValidate={false} className='border-y-2 border-y-app-grey text-base py-4'>
         {/* MatricNum session */}
         <label htmlFor="matricNum" className='inline-block mb-2 font-semibold after:content-["*"] after:text-red-500'>Matric. NO_ </label>
@@ -112,11 +112,11 @@ const LoginIndex = () => {
         <span className="flex h-fit aria-[invalid]:visible aria-[invalid]:h-fit text-xs text-red-500 w-full -mt-3 ml-[0.15rem] mb-3">{pwd_message}</span>
 
         <input type="submit" value="Sign In" className='w-full lg:text-xl lg:leading-[3rem] bg-app-green text-app-white outline-none ring-0 rounded-md p-1 mb-6 cursor-pointer tracking-wider' />
-        <div className="font-semibold mb-4">
+        <div className="font-semibold mb-4 xs:tracking-tight xp:tracking-normal">
           <span>Forgot password? </span><Link href={"/auth/login/api"} className='underline underline-offset-2'>Request OTP</Link>
         </div>
         <div className="font-medium text-center text-sm">
-          <span>You have not registered? Click to</span> <Link href={"/auth/sign-in"} className='text-blue-500 underline underline-offset-2 '> Sign up</Link>
+          <span>You have not registered? Click to</span> <Link href={"/auth/sign-in"} className='text-blue-500 underline underline-offset-2 '> Sign&nbsp;up</Link>
         </div>
       </form>
     

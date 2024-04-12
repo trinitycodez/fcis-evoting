@@ -2,11 +2,8 @@
 import { Chart } from "chart.js/auto";
 import { useEffect, useState } from "react";
 
-
-
 // component
 const CanvasChart = () => {
-  // let [set, isSet] = useState(false);
   let [set, isSet] = useState(false);
   useEffect(() => {
     isSet(()=>{
