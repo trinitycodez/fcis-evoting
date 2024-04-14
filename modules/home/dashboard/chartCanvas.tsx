@@ -36,7 +36,7 @@ const graph = (val:boolean) => {
           data: {
             labels: ["Elijah", "Joshua", "Moses", "James", "Peace"],
             datasets: [{
-              label: "Candidates' for President",
+              label: "Candidates for President",
               data: [350, 50, 90, 50, 20],
               backgroundColor: "#A52A2A",
               borderColor: "#EAD42D",

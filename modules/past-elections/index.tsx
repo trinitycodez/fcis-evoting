@@ -84,24 +84,26 @@ const voteTableTest = () => {
   for (let h = 0; h < totalApiSession.length; h++) {
     cellNodeElementTest.push(
       <details className="mb-3 p-2 pb-4 shadow-md bg-app-white  rounded-md hover:-translate-y-1 transition-all duration-75">
-        <summary className="text-xl leading-[1.875rem] outline-none">{totalApiSession[h].year} Academic Session</summary>
-        <table className="def-table text-center w-[50rem] mt-14 bg-app-white text-base">
-          <thead className="border-y border-app-grey">
-            <tr>
-              <th>Port-folio</th>
-              <th>Names</th>
-              <th>Numbers of Votes</th>
-              <th>Numbers of Voters</th>
-              <th>Numbers of Registered Voters</th>
-              <th>Winner</th>
-            </tr>
-          </thead>
-          <tbody className="bg-app-grey-white">
-            {
-              voteTable(h)
-            }
-          </tbody>
-        </table>
+        <summary className="xs:text-lg md:text-xl leading-[1.875rem] outline-none">{totalApiSession[h].year} Academic Session</summary>
+        <div className="overflow-x-auto pb-4">
+          <table className="def-table text-center xs:w-[40rem] xp:w-[50rem] mt-14 bg-app-white text-base mx-auto">
+            <thead className="border-y border-app-grey">
+              <tr>
+                <th>Port-folio</th>
+                <th>Names</th>
+                <th>Numbers of Votes</th>
+                <th>Numbers of Voters</th>
+                <th>Numbers of Registered Voters</th>
+                <th>Winner</th>
+              </tr>
+            </thead>
+            <tbody className="bg-app-grey-white">
+              {
+                voteTable(h)
+              }
+            </tbody>
+          </table>
+        </div>
       </details>
     )
   }
@@ -111,8 +113,8 @@ const voteTableTest = () => {
 const PastElectIndex = () => {
 
   return (
-    <div className="pt-10 pb-14 ">
-      <h2 className="font-bold text-[2.5rem] leading-[3rem] mb-6 text-app-primary ">Past Elections</h2>
+    <div className="pt-10 pb-14 px-2 ">
+      <h2 className="font-bold  xs:text-2xl sm:text-3xl lg:text-[2.5rem] lg:leading-[3rem] mb-6 text-app-primary ">Past Elections</h2>
       {
         voteTableTest()
       }

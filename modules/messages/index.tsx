@@ -38,7 +38,7 @@ const doings = () => {
           <p>
             {msg}
           </p>
-          <div className="flex justify-between text-sm text-app-grey">
+          <div className="flex justify-between gap-x-4 gap-y-1 flex-wrap xs:text-xs sm:text-sm text-app-grey">
             <span>{name}</span>
             <span>{date}</span>
           </div>
@@ -82,8 +82,8 @@ const MSGIndex = () => {
 
 
   return (
-    <div className='pt-10 pb-14 text-lg leading-[1.575rem]' onClick={() => isSet(false)}>
-      <h2 className="font-bold text-[2.5rem] leading-[3rem] mb-6 text-app-primary ">Prompt Awareness</h2>
+    <div className='pt-10 pb-14 px-2 xs:text-base sm:text-lg sm:leading-[1.575rem]' onClick={() => isSet(false)}>
+      <h2 className="font-bold xs:text-2xl sm:text-3xl lg:text-[2.5rem] lg:leading-[3rem] lg:mb-6 text-app-primary ">Prompt Awareness</h2>
       <div className="flex flex-col justify-center items-center p-6 pl-2 gap-8">
         {doings()}
 
@@ -94,18 +94,18 @@ const MSGIndex = () => {
           <textarea name="" rows={1}
           onChange={heightMaximiser}
           onSelect={heightMaximiser}
-          onSelectCapture={heightMaximiser}
+          onSelectCapture={heightMaximiser} // delete
           onClick={inputEventClick}
           ref={ref}
           placeholder='message'
           className='text-base resize-none border border-app-primary/75 focus:border-app-white focus:ring-0 rounded-3xl w-full pl-4'
           ></textarea>
         </div>
-        <div className="flex justify-center items-center h-11 ml-4 p-3 bg-app-primary rounded-full cursor-pointer ">
+        <div className="flex justify-center items-center xp:h-11 ml-4 p-3 bg-app-primary rounded-full cursor-pointer ">
           <SenderIcon
             width={"21px"}
             height={"18px"}
-            className='-rotate-[15deg] '
+            className='-rotate-[15deg] xs:w-4 xp:w-[1.3125rem] '
           />
         </div>
       </form>

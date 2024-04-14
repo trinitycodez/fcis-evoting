@@ -30,9 +30,14 @@ const config: Config = {
           "text-sub": "#1A202C",
         },
       },
+      backgroundSize: {
+        "img-70": "70%",
+        "img-60": "60%",
+      },
       boxShadow: {
         "app-box": "rgba(0, 0, 0, 0.03) 0px 12px 16px, rgba(16, 24, 40, 0.02) 0px 4px 6px",
         "app-message": "rgba(129, 65, 38, 45%) 0px -1px 31px, rgb(129 65 38 / 45%) 0px 4px 22px",
+        "app-toggle": "rgb(0 0 0 / 0.25) 0px -28px 33px 5px",
       },
     },
   },
