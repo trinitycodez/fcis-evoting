@@ -7,7 +7,7 @@ const apiPersons:APIVotes = {
       candidates: [
         {
           PortFolio: "President",
-          Names: ["ELIJAH, Oyindamola Israel", "AKHIHIERO, Joshua Ohiole", "INUSA, John", "ABRAHAM, James Theophilus", "OHEOBE, Peace Ohiole"],
+          Names: ["ELIJAH, Oyindamola Israel", "AKHIHIERO, Joshua Ohiole", "INUSA, John Yahaya", "ABRAHAM, James Theophilus", "OHEOBE, Peace Ohiole"],
           NumVotes: [350, 50, 90, 50, 20],
           NumVoters: 550,
           NumRegVoters: 600,
@@ -48,8 +48,8 @@ const apiPersons:APIVotes = {
 }
 
 const totalApiSession = apiPersons.Session;
-const voteTable = (nextSession:number=0) => {
-  const totalApiPersons = apiPersons.Session[nextSession].candidates;
+const voteTable = (nextSession:number) => {
+  const totalApiPersons = totalApiSession[nextSession].candidates;
   const cellNodeElement:React.ReactNode[] = [];
   for (let k = 0; k < totalApiPersons.length; k++) {
     let i = k;
@@ -83,7 +83,7 @@ const voteTableTest = () => {
   const cellNodeElementTest:React.ReactNode[] = [];
   for (let h = 0; h < totalApiSession.length; h++) {
     cellNodeElementTest.push(
-      <details className="mb-3 p-2 pb-4 shadow-md bg-app-white  rounded-md hover:-translate-y-1 transition-all duration-75">
+      <details className="mb-6 p-2 pb-4 shadow-md bg-app-white rounded-md hover:-translate-y-1 transition-all duration-75">
         <summary className="xs:text-lg md:text-xl leading-[1.875rem] outline-none">{totalApiSession[h].year} Academic Session</summary>
         <div className="overflow-x-auto pb-4">
           <table className="def-table text-center xs:w-[40rem] xp:w-[50rem] mt-14 bg-app-white text-base mx-auto">
@@ -109,16 +109,17 @@ const voteTableTest = () => {
   }
   return cellNodeElementTest;
 }
+
 // component
 const PastElectIndex = () => {
 
   return (
-    <div className="pt-10 pb-14 px-2 ">
-      <h2 className="font-bold  xs:text-2xl sm:text-3xl lg:text-[2.5rem] lg:leading-[3rem] mb-6 text-app-primary ">Past Elections</h2>
+    <section className="xs:pt-6 sm:pt-10 pb-14 px-2 ">
+      <h2 className="font-bold xs:text-2xl sm:text-3xl lg:text-[2.5rem] lg:leading-[3rem] mb-6 text-app-primary ">Past Elections</h2>
       {
         voteTableTest()
       }
-    </div>
+    </section>
   )
 }
 

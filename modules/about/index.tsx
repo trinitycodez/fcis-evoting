@@ -13,7 +13,7 @@ const arrDepts = [
 const AboutIndex: NextPage = () => {
 
   return (
-    <div className='pt-10 pb-14 px-2 '>
+    <section className='xs:pt-6 sm:pt-10 pb-14 px-2 '>
         <div className="flex flex-col xs:text-base sm:text-lg sm:leading-[1.575rem] mb-24 gap-4">
             <h2 className="font-bold xs:text-2xl sm:text-3xl lg:text-[2.5rem] lg:leading-[3rem] xs:mb-4 sm:mb-6 text-app-primary ">About Us</h2>
             <p>
@@ -25,16 +25,16 @@ const AboutIndex: NextPage = () => {
         </div>
         <div className="flex flex-col items-center">
             <h2 className="font-bold xs:text-2xl sm:text-3xl lg:text-[2.5rem] lg:leading-[3rem] mb-10 text-app-primary">5 Awesome Departments.</h2>
-            <div className="flex flex-row flex-wrap items-start justify-center gap-7">
+            <div className="flex flex-row flex-wrap items-start justify-center xs:gap-7 lg:gap-y-12 lg:gap-x-20">
                 {
                     arrDepts.map((dept, i)=> (
-                        <div key={i} className="flex flex-col w-64 p-4 xs:gap-2 sm:gap-3 rounded-2xl shadow-app-box bg-app-white">
+                        <div className="flex flex-col xs:w-56 xp:w-64 md:w-72 lg:w-64 p-4 xs:gap-2 sm:gap-3 rounded-2xl shadow-app-box bg-app-white xs:justify-center xs:items-center xs:text-center sm:justify-start sm:items-start sm:text-start ">
                             <Image
                                 src={dept.image}
                                 alt={dept.name}
                                 height={100}
                                 width={100}
-                                className='rounded-full mb-2'
+                                className='rounded-full mb-2 xs:w-20 xs:h-20 sm:w-[100px] sm:h-[100px] '
                             />
                             <h2 className='text-app-primary xs:text-lg sm:text-xl leading-6 font-bold tracking-tight'>{dept.name}</h2>
                             <span className='xs:text-sm sm:text-base'>Learn More</span>
@@ -43,7 +43,7 @@ const AboutIndex: NextPage = () => {
                 }
             </div>
         </div>
-    </div>
+    </section>
   )
 }
 

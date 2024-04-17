@@ -57,7 +57,7 @@ const graph = (val:boolean) => {
         })
         
       }
-    }, 1500);
+    }, 1000);
   }
 }
 

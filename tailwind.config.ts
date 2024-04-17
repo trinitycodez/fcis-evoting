@@ -26,13 +26,18 @@ const config: Config = {
           white: "#FFFFFF",
           grey: "#9A9897",
           yellow: "#EAD42D",
+          "light-primary": "#FAEBD7",
           "grey-white": "#FAF9F9",
           "text-sub": "#1A202C",
         },
       },
       backgroundSize: {
         "img-70": "70%",
-        "img-60": "60%",
+      },
+      backgroundPosition: {
+        sm: "right -6%",
+        md: "122% -6%",
+        lg: "137% 15%",
       },
       boxShadow: {
         "app-box": "rgba(0, 0, 0, 0.03) 0px 12px 16px, rgba(16, 24, 40, 0.02) 0px 4px 6px",

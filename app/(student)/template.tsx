@@ -13,6 +13,7 @@ import PrevElection from "@/icons/prev-elect.icon";
 import AboutIcon from "@/icons/about.icon";
 import PoliciesIcon from "@/icons/policies.icon";
 import Link from "next/link";
+import StudentsList from "@/icons/list-stds.icon";
 
 export const links = [
   { path: "/", name: "Dashboard", txt: "Dashboard", icon: <DashboardIcon width={27} height={27} />},
@@ -20,7 +21,9 @@ export const links = [
   { path: "/past-elections", name: "Past-elections", txt: "Past Elections", icon: <PrevElection width={27} height={27} />},
   { path: "/policies", name: "Policies", txt: "Terms & Conditions", icon:  <PoliciesIcon width={27} height={27} />},
   { path: "/about", name: "About", txt: "About us", icon: <AboutIcon width={27} height={27} />},
+  { path: "/students", name: "Students", txt: "Students list", icon: <StudentsList width={27} height={27} />},
 ]
+// do not forget to remove the list of students for it is meant for admins only
 
 const holdObj = {
   layerImage: {
@@ -71,7 +74,7 @@ const GeneralPage = ({children}: {children: React.ReactNode}) => {
         {/* toggle just like an hamburger menubar */}
         {
           (toggle) ? <div className="flex flex-col items-center p-[.35rem] py-7 xs:gap-4 lg:gap-7 ">
-            <Image src={profile} alt="profile avatar" height={40} width={40} className="rounded-full text-center mb-1" />
+            <Image src={profile} alt="profile avatar" height={40} width={40} className="rounded-full text-center mb-1 xs:h-[35px] xs:w-[35px] sm:h-10 sm:w-10" />
             <CollapsedMenu width={27} height={27} onClick={ ()=> clicker(!toggle) } />
             {
               links.map((nav, i) => (
@@ -88,10 +91,9 @@ const GeneralPage = ({children}: {children: React.ReactNode}) => {
         }
       </aside>
 
-
       <main className={`${toggle? "app-container-icons":"app-container"} 
       overflow-y-scroll overflow-x-hidden border-app-white border-t-[28px] pr-4 `}>
-        <div className={`min-h-screen bg-[url('../assets/images/cissa.png')] ${toggle? "bg-top":"bg-right-top"} md:bg-img-60 lg:bg-img-70 bg-fixed bg-no-repeat bg-app-white/[0.93] bg-blend-color-dodge `}>
+        <div className={`min-h-screen sm:bg-[url('../assets/images/cissa.png')] ${toggle? "bg-top":"bg-right-top"} sm:bg-img-70 sm:bg-sm md:bg-md lg:bg-lg bg-fixed bg-no-repeat bg-app-white/[0.93] bg-blend-color-dodge `}>
           {/* main body content */}
           <header className="flex justify-between items-start bg-app-white w-full h-[5.25rem] sticky top-[-2px] z-20">
             <Logo layer={holdObj} />

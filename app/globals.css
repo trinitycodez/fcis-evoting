@@ -20,13 +20,14 @@
 
 .app-aside {
   /* color: #1a202c; */
-  @apply xs:min-w-64 w-[25vw] min-h-screen max-h-screen overflow-y-scroll overflow-x-hidden;
+  @apply xs:min-w-64 sm:min-w-[22rem] md:min-w-64 lg:min-w-[19rem] w-[25vw] min-h-screen max-h-screen overflow-y-scroll overflow-x-hidden;
 }
 .app-aside-icons {
   @apply min-w-[3.2rem] min-h-screen max-h-screen overflow-y-auto overflow-x-hidden;
 }
 .app-container {
-  @apply min-w-[65vw] w-full md:ml-16 lg:ml-28 min-h-screen;
+  /* @apply min-w-[65vw] w-full md:ml-16 lg:ml-28 min-h-screen; */
+  @apply w-full md:ml-16 lg:ml-12 min-h-screen;
 }
 .app-container-icons {
   @apply min-w-64 w-full xs:ml-3 sm:ml-12 md:ml-16 lg:ml-28 min-h-screen;

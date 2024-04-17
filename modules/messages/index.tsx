@@ -82,7 +82,7 @@ const MSGIndex = () => {
 
 
   return (
-    <div className='pt-10 pb-14 px-2 xs:text-base sm:text-lg sm:leading-[1.575rem]' onClick={() => isSet(false)}>
+    <div className='xs:pt-6 sm:pt-10 pb-14 px-2 xs:text-base sm:text-lg sm:leading-[1.575rem]' onClick={() => isSet(false)}>
       <h2 className="font-bold xs:text-2xl sm:text-3xl lg:text-[2.5rem] lg:leading-[3rem] lg:mb-6 text-app-primary ">Prompt Awareness</h2>
       <div className="flex flex-col justify-center items-center p-6 pl-2 gap-8">
         {doings()}
