@@ -111,7 +111,7 @@ const LoginIndex = () => {
         </div>
         <span className="flex h-fit aria-[invalid]:visible aria-[invalid]:h-fit text-xs text-red-500 w-full -mt-3 ml-[0.15rem] mb-3">{pwd_message}</span>
 
-        <input type="submit" value="Sign In" className='w-full lg:text-xl lg:leading-[3rem] bg-app-green text-app-white outline-none ring-0 rounded-md p-1 mb-6 cursor-pointer tracking-wider' />
+        <input type="submit" value="Sign In" className='w-full lg:text-xl lg:leading-[3rem] bg-app-green text-app-white outline-none ring-0 rounded-md p-2 mb-6 cursor-pointer tracking-wider' />
         <div className="font-semibold mb-4 xs:tracking-tight xp:tracking-normal">
           <span>Forgot password? </span><Link href={"/auth/login/api"} className='underline underline-offset-2'>Request OTP</Link>
         </div>

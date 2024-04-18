@@ -114,7 +114,7 @@ const voteTableTest = () => {
 const PastElectIndex = () => {
 
   return (
-    <section className="xs:pt-6 sm:pt-10 pb-14 px-2 ">
+    <section className="xs:pt-6 sm:pt-10 pb-14 px-2 max-w-[80vw] ">
       <h2 className="font-bold xs:text-2xl sm:text-3xl lg:text-[2.5rem] lg:leading-[3rem] mb-6 text-app-primary ">Past Elections</h2>
       {
         voteTableTest()

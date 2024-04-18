@@ -4,7 +4,7 @@ import Image from "next/image";
 import Logo from "@/components/logo";
 import { HeaderIndex } from "@/components/header";
 import FooterIndex from "@/components/footer";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, createContext, useState } from "react";
 import profile from "@/assets/images/avatar.svg";
 import CollapsedMenu from "@/icons/collapsed.icon";
 import DashboardIcon from "@/icons/dashboard.icon";
@@ -14,7 +14,11 @@ import AboutIcon from "@/icons/about.icon";
 import PoliciesIcon from "@/icons/policies.icon";
 import Link from "next/link";
 import StudentsList from "@/icons/list-stds.icon";
+import ModalIndex from "@/lib/ui";
+import { modalPropsType } from "@/types/modal";
 
+export const UserContext = createContext<modalPropsType>({value: false, setValue(val) {return}});
+// do not forget to remove the list of students for it is meant for admins only
 export const links = [
   { path: "/", name: "Dashboard", txt: "Dashboard", icon: <DashboardIcon width={27} height={27} />},
   { path: "/messages", name: "Messages", txt: "Messages", icon: <MessagesIcon width={27} height={27} />},
@@ -23,7 +27,6 @@ export const links = [
   { path: "/about", name: "About", txt: "About us", icon: <AboutIcon width={27} height={27} />},
   { path: "/students", name: "Students", txt: "Students list", icon: <StudentsList width={27} height={27} />},
 ]
-// do not forget to remove the list of students for it is meant for admins only
 
 const holdObj = {
   layerImage: {
@@ -39,14 +42,8 @@ const holdObj = {
 const GeneralPage = ({children}: {children: React.ReactNode}) => {
   const [toggle, isToggle] = useState(true); // func
   const [togLayout, isTogLayout] = useState(false); // clicker
+  const [modal, isModal] = useState(false); // modal overlay
   const pathname = usePathname();
-
-  // useEffect(() => {
-  //   const holdWindowVal = document.body.clientWidth;
-  //   if (holdWindowVal < 768) return isToggle(true);
-  //   isToggle(false);
-
-  // }, [])
 
   const layout = () => {
     const holdVal:ReactNode[] = [];
@@ -68,13 +65,17 @@ const GeneralPage = ({children}: {children: React.ReactNode}) => {
   return (
     <>
       { togLayout && (layout()) }
-
+      { modal && (
+        <UserContext.Provider value={{value: modal, setValue: (val: boolean)=> isModal(val)}}>
+          <ModalIndex />
+        </UserContext.Provider>
+      )}
       <aside className={`${toggle? "app-aside-icons":"app-aside"} ${togLayout? " shadow-app-toggle xs:absolute":"xs:sticky"}
       flex flex-col left-0 top-0 h-screen justify-between gap-8 bg-app-primary text-app-grey-white z-50 ` }>
         {/* toggle just like an hamburger menubar */}
         {
           (toggle) ? <div className="flex flex-col items-center p-[.35rem] py-7 xs:gap-4 lg:gap-7 ">
-            <Image src={profile} alt="profile avatar" height={40} width={40} className="rounded-full text-center mb-1 xs:h-[35px] xs:w-[35px] sm:h-10 sm:w-10" />
+            <Image src={profile} alt="profile avatar" height={40} width={40} className="rounded-full text-center mb-1 xs:h-[35px] xs:w-[35px] sm:h-10 sm:w-10" onClick={() => isModal(!modal)} />
             <CollapsedMenu width={27} height={27} onClick={ ()=> clicker(!toggle) } />
             {
               links.map((nav, i) => (
@@ -85,7 +86,7 @@ const GeneralPage = ({children}: {children: React.ReactNode}) => {
             }
           </div>
           : <>
-            <HeaderIndex value={toggle} stateToggle={(val:boolean) => clicker(val) } />
+            <HeaderIndex value={toggle} stateToggle={(val:boolean) => clicker(val)} stateModal={(val: boolean) => isModal(val)} />
             <FooterIndex />
           </>
         }

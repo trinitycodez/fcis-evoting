@@ -17,19 +17,18 @@ const links = [
 ];
 
 // component, return to the home modules index
-export const HeaderIndex = ({value, stateToggle}:propsType) => {
+export const HeaderIndex = ({value, stateToggle, stateModal}: propsType) => {
   const pathname = usePathname();
 
-  const toggleMenu = () => {
-    stateToggle(!value);
-  }
+  const toggleMenu = () => stateToggle(!value);
+  const modalFunc = () => stateModal(true);
 
   return (
     <>
       <header className="flex flex-col justify-between w-full tracking-[.88px]">
         <div className="px-4 py-6 flex flex-col gap-4 mb-4">
           <div className="flex justify-between items-start">
-            <div className="flex relative">
+            <div className="flex relative" onClick={modalFunc}>
               <Image src={profile} alt="profile avatar" height={40} width={40} className="rounded-full text-center mb-1 xs:h-[35px] xs:w-[35px] sm:h-10 sm:w-10 " />
               <EditIcon width={20} height={20} className="absolute -right-3 bottom-1 xs:w-4 xs:h-4 sm:w-5 sm:h-5 " />
             </div>

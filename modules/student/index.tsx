@@ -113,7 +113,7 @@ const tableStudent = () => {
 // component
 const StudentIndex = () => {
   return (
-    <section className="xs:py-6 sm:py-10 px-2">
+    <section className="xs:py-6 sm:py-10 px-2 max-w-[80vw]">
         <h2 className="font-bold xs:text-2xl sm:text-3xl lg:text-[2.5rem] lg:leading-[3rem] xs:mb-8 sm:mb-6 text-app-primary w-full text-start">Student Lists</h2>
         {
             tableStudent()

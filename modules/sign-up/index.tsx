@@ -131,7 +131,7 @@ const SignUpIndex = () => {
             payload: `${imageRef.current?.value}`
           })}} className='w-full' />
         </div>
-        <input type="submit" value="Register" className='w-full lg:text-xl lg:leading-[3rem] bg-app-green text-app-white outline-none ring-0 rounded-md p-1 mb-6 cursor-pointer tracking-wider' />
+        <input type="submit" value="Register" className='w-full lg:text-xl lg:leading-[3rem] bg-app-green text-app-white outline-none ring-0 rounded-md p-2 mb-6 cursor-pointer tracking-wider' />
         <div className="font-medium text-center text-sm">
           <span>Already registered? Click to </span><Link href={"/auth/login"} className='text-blue-500 underline underline-offset-2'>Login</Link>
         </div>
