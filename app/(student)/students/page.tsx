@@ -1,5 +1,9 @@
 import StudentIndex from '@/modules/student'
-import { NextPage } from 'next'
+import { Metadata, NextPage } from 'next'
+
+export const metadata: Metadata = {
+  title: "Students-lists | FCIS-Evoting",
+} 
 
 const StudentPage: NextPage = () => {
   return (

@@ -1,6 +1,10 @@
-import { FC } from "react"
+import { initialState, reducer } from "@/types/validate";
+import { FC, useReducer, useRef } from "react"
 
 const UserUpdate: FC = () => {
+  const [values, dispatch] = useReducer(reducer, initialState)
+  const {image} = values;
+  const imageRef = useRef<HTMLInputElement>(null);
 
   return (
     <>
@@ -11,7 +15,11 @@ const UserUpdate: FC = () => {
         </div>
         <div className="flex flex-col gap-2 mb-8">
           <label htmlFor="postalImage" className="font-semibold w-fit">Postal Image: </label>
-          <input type="file" name="postalImage" id="postalImage" className="bg-app-white focus:outline-none focus:ring-0" />
+          <input type="file" name="postalImage" accept=".jpeg,.png" value={image} ref={imageRef} id="postalImage" className="bg-app-white focus:outline-none focus:ring-0"
+          onChange={() => {dispatch({
+            type: "IMAGE",
+            payload: `${imageRef.current?.value}`
+          })}} />
         </div>
         <input type="submit" value="Submit" className='w-full lg:text-xl lg:leading-[3rem] bg-app-green text-app-white outline-none ring-0 rounded-md p-2 mb-6 cursor-pointer tracking-wider' />
       </form>

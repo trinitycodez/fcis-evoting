@@ -83,7 +83,7 @@ const voteTableTest = () => {
   const cellNodeElementTest:React.ReactNode[] = [];
   for (let h = 0; h < totalApiSession.length; h++) {
     cellNodeElementTest.push(
-      <details className="mb-6 p-2 pb-4 shadow-md bg-app-white rounded-md hover:-translate-y-1 transition-all duration-75">
+      <details key={h} className="mb-6 p-2 pb-4 shadow-md bg-app-white rounded-md hover:-translate-y-1 transition-all duration-75">
         <summary className="xs:text-lg md:text-xl leading-[1.875rem] outline-none">{totalApiSession[h].year} Academic Session</summary>
         <div className="overflow-x-auto pb-4">
           <table className="def-table text-center xs:w-[40rem] xp:w-[50rem] mt-14 bg-app-white text-base mx-auto">

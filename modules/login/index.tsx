@@ -2,52 +2,8 @@
 import VisibleIcon from '@/icons/visible.icon';
 import { useEffect, useState, useReducer, useRef, FormEventHandler } from 'react';
 import HiddenIcon from '@/icons/hidden.icon';
-import { initialType, actionType } from '@/types/sign-up';
 import Link from 'next/link';
-import { initialState } from '../sign-up';
-
-const reducer = (state:initialType, action:actionType):initialType => {
-  switch (action.type) {
-    case "ALL":
-      return {...initialState};
-    case "MATRIC_":
-      const holdMatric = action.payload.length;
-      if ((holdMatric < 8) && (holdMatric !== 0)) {
-        document.querySelector("#matricNum")!.ariaInvalid = "true";
-        return {
-          ...state,
-          matric: action.payload.toLowerCase(),
-          matN_message: "Matric number should be minimum of 8",
-        };
-      }
-      document.querySelector("#matricNum")!.ariaInvalid = "false";
-      return {
-        ...state,
-        matric: action.payload.toUpperCase(),
-        matN_message: "",
-      };
-    case "PASSWORD":
-      const holdVal = action.payload.length;
-      if ((holdVal < 8) && (holdVal !== 0)) {
-        document.querySelector("#password")!.ariaInvalid = "true";
-        return {
-          ...state,
-          password: action.payload,
-          pwd_message: "Enter minimum of 8 digits",
-        };
-      }
-      document.querySelector("#password")!.ariaInvalid = "false";
-      return {
-        ...state,
-        password: action.payload,
-        pwd_message: "",
-      };
-
-    default:
-      // wysiwyg... all state maintained
-      return {...state};
-  }
-}
+import { initialState, reducer } from '@/types/validate';
 
 const LoginIndex = () => {
   const [values, dispatch] = useReducer(reducer, initialState);
@@ -55,6 +11,7 @@ const LoginIndex = () => {
   const [isVisible, setVisible] = useState(true);
   const matricNumRef = useRef<HTMLInputElement>(null);
   const pwdRef = useRef<HTMLInputElement>(null);
+  const otpRef = useRef<HTMLSpanElement>(null);
 
   // call this handler to submit to route Api
   const submitHandler:FormEventHandler = async (e) => {
@@ -113,10 +70,10 @@ const LoginIndex = () => {
 
         <input type="submit" value="Sign In" className='w-full lg:text-xl lg:leading-[3rem] bg-app-green text-app-white outline-none ring-0 rounded-md p-2 mb-6 cursor-pointer tracking-wider' />
         <div className="font-semibold mb-4 xs:tracking-tight xp:tracking-normal">
-          <span>Forgot password? </span><Link href={"/auth/login/api"} className='underline underline-offset-2'>Request OTP</Link>
+          <span>Forgot password? </span><span className='underline underline-offset-2 cursor-pointer' ref={otpRef}>Request OTP</span>
         </div>
         <div className="font-medium text-center text-sm">
-          <span>You have not registered? Click to</span> <Link href={"/auth/sign-in"} className='text-blue-500 underline underline-offset-2 '> Sign&nbsp;up</Link>
+          <span>You have not registered? Click to</span> <Link href={"/auth/sign-up"} className='text-blue-500 underline underline-offset-2 '> Sign&nbsp;up</Link>
         </div>
       </form>
     

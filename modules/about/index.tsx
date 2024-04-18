@@ -28,7 +28,7 @@ const AboutIndex: NextPage = () => {
             <div className="flex flex-row flex-wrap items-start justify-center xs:gap-7 lg:gap-y-12 lg:gap-x-20">
                 {
                     arrDepts.map((dept, i)=> (
-                        <div className="flex flex-col xs:w-56 xp:w-64 md:w-72 lg:w-64 p-4 xs:gap-2 sm:gap-3 rounded-2xl shadow-app-box bg-app-white xs:justify-center xs:items-center xs:text-center sm:justify-start sm:items-start sm:text-start ">
+                        <div key={i} className="flex flex-col xs:w-56 xp:w-64 md:w-72 lg:w-64 p-4 xs:gap-2 sm:gap-3 rounded-2xl shadow-app-box bg-app-white xs:justify-center xs:items-center xs:text-center sm:justify-start sm:items-start sm:text-start ">
                             <Image
                                 src={dept.image}
                                 alt={dept.name}

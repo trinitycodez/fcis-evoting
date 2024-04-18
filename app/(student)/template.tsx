@@ -14,7 +14,7 @@ import AboutIcon from "@/icons/about.icon";
 import PoliciesIcon from "@/icons/policies.icon";
 import Link from "next/link";
 import StudentsList from "@/icons/list-stds.icon";
-import ModalIndex from "@/lib/ui";
+import ModalIndex from "../lib/ui";
 import { modalPropsType } from "@/types/modal";
 
 export const UserContext = createContext<modalPropsType>({value: false, setValue(val) {return}});

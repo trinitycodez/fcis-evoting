@@ -2,66 +2,14 @@
 import VisibleIcon from '@/icons/visible.icon';
 import { useEffect, useState, useReducer, useRef, FormEventHandler } from 'react';
 import HiddenIcon from '@/icons/hidden.icon';
-import { initialType, actionType } from '@/types/sign-up';
 import { Submit } from './submit';
 import Link from 'next/link';
+import { initialState, reducer } from '@/types/validate';
 
-export const initialState:initialType = {
-  matric: "",
-  image: "",
-  password: "",
-}
-const reducer = (state:initialType, action:actionType):initialType => {
-  switch (action.type) {
-    case "ALL":
-      return {...initialState};
-    case "MATRIC_":
-      const holdMatric = action.payload.length;
-      if ((holdMatric < 8) && (holdMatric !== 0)) {
-        document.querySelector("#matricNum")!.ariaInvalid = "true";
-        return {
-          ...state,
-          matric: action.payload.toLowerCase(),
-          matN_message: "Matric number should be minimum of 8",
-        };
-      }
-      document.querySelector("#matricNum")!.ariaInvalid = "false";
-      return {
-        ...state,
-        matric: action.payload.toUpperCase(),
-        matN_message: "",
-      };
-    case "IMAGE":
-      return {
-        ...state,
-        image: action.payload,
-      };
-    case "PASSWORD":
-      const holdVal = action.payload.length;
-      if ((holdVal < 8) && (holdVal !== 0)) {
-        document.querySelector("#password")!.ariaInvalid = "true";
-        return {
-          ...state,
-          password: action.payload,
-          pwd_message: "Enter minimum of 8 digits",
-        };
-      }
-      document.querySelector("#password")!.ariaInvalid = "false";
-      return {
-        ...state,
-        password: action.payload,
-        pwd_message: "",
-      };
-
-    default:
-      // wysiwyg... all state maintained
-      return {...state};
-  }
-}
-
+// component
 const SignUpIndex = () => {
   const [values, dispatch] = useReducer(reducer, initialState);
-  const {matric, password, pwd_message, matN_message} = values;
+  const {matric, image, password, pwd_message, matN_message} = values;
   const [isVisible, setVisible] = useState(true);
   const matricNumRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLInputElement>(null);
@@ -99,7 +47,7 @@ const SignUpIndex = () => {
         <input type="text" id="matricNum" placeholder="Matric Number" aria-invalid={false} autoFocus value={matric} ref={matricNumRef} 
         onChange={() => {dispatch({
           type: "MATRIC_",
-          payload: `${matricNumRef.current!.value}`
+          payload: `${matricNumRef.current!.value}`,
           })}
         } className="border border-app-grey rounded-lg focus:border-app-primary placeholder:text-app-grey placeholder:tracking-wider focus:ring-0 mb-4 w-full" required />
         <span className="flex h-fit aria-[invalid]:visible aria-[invalid]:h-fit text-xs text-red-500 w-full -mt-3 ml-[0.15rem] mb-3 ">{matN_message}</span>
@@ -111,7 +59,7 @@ const SignUpIndex = () => {
           <input type={`${isVisible? "password":"text"}`} id='password' minLength={8} value={password} placeholder="*********" ref={pwdRef} 
           onChange={() => {dispatch({
             type: "PASSWORD",
-            payload: `${pwdRef.current!.value}`
+            payload: `${pwdRef.current!.value}`,
             })}
           } className='border border-app-grey rounded-lg placeholder:tracking-widest focus:border-app-primary focus:ring-0 pr-9 w-full' aria-invalid={false} required />
           <div className="seer hidden items-center w-6 h-full absolute right-2 cursor-pointer" onClick={() => setVisible(!isVisible)}>
@@ -123,13 +71,13 @@ const SignUpIndex = () => {
         <span className="flex h-fit aria-[invalid]:visible aria-[invalid]:h-fit text-xs text-red-500 w-full -mt-3 ml-[0.15rem] mb-3">{pwd_message}</span>
 
         {/* image session */}
-        <div className="mb-8 w-fit">
+        <div className="mb-8 w-full rounded-lg">
           {/* <input type="image" src="" alt="" } /> */}
-          <input type="file" name="userImage" id="userImage" accept=".jpeg,.png" ref={imageRef} 
-          onInput={() => {dispatch({
+          <input type="file" name="userImage" id="userImage" accept='.jpeg,.png' value={image} ref={imageRef} 
+          onChange={() => {dispatch({
             type: "IMAGE",
-            payload: `${imageRef.current?.value}`
-          })}} className='w-full' />
+            payload: `${imageRef.current?.value}`,
+          })}} className='w-full bg-app-grey/45 focus:outline-none focus:ring-0' />
         </div>
         <input type="submit" value="Register" className='w-full lg:text-xl lg:leading-[3rem] bg-app-green text-app-white outline-none ring-0 rounded-md p-2 mb-6 cursor-pointer tracking-wider' />
         <div className="font-medium text-center text-sm">

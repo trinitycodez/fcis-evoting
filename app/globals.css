@@ -22,6 +22,9 @@
   /* color: #1a202c; */
   @apply xs:min-w-64 sm:min-w-[22rem] md:min-w-64 lg:min-w-[19rem] w-[25vw] min-h-screen max-h-screen overflow-y-scroll overflow-x-hidden;
 }
+.loader {
+  background-image: linear-gradient(to right, rgba(129, 66, 38, 0), rgb(229 211 204))
+}
 .app-aside-icons {
   @apply min-w-[3.2rem] min-h-screen max-h-screen overflow-y-auto overflow-x-hidden;
 }
