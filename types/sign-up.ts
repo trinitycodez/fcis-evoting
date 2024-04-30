@@ -1,13 +1,16 @@
 export interface initialType {
     matric: string,
-    image: string,
-    password: string,
-    message?: string,
-    pwd_message?: string,
     matN_message?: string,
+    image: string,
+    userImgMsg?: string,
+    password: string,
+    pwd_message?: string,
+    postalName: string,
+    postalNameMsg?: string,
+    message?: string,
 }
 
 export interface actionType {
-    type: "MATRIC_" | "IMAGE" | "PASSWORD" | "ALL",
+    type: "MATRIC_" | "NICKNAME" | "IMAGE" | "PASSWORD" | "ALL",
     payload: string
 }

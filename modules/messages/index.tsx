@@ -34,7 +34,7 @@ const doings = () => {
   for (let i = 0; i < totalApiMessages.length; i++) {
     const {date, msg, name} = totalApiMessages[i];
       eachMsg.push(
-        <div className="flex flex-col p-4 pt-6 text-app-primary gap-6 bg-app-white shadow-lg rounded-md">
+        <div key={i} className="flex flex-col p-4 pt-6 text-app-primary gap-6 bg-app-white shadow-lg rounded-md">
           <p>
             {msg}
           </p>

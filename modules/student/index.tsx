@@ -18,6 +18,7 @@ const ApiStudents: APIStudents = {
                     level: "300L",
                     matricNo: "20/52HL088",
                     name: "OLUSOLA, Samson",
+                    position: "",
                 },
             ],
         },
@@ -25,10 +26,11 @@ const ApiStudents: APIStudents = {
             Department: "Computer Science",
             Students: [
                 {
-                    id: 1,
+                    id: 3,
                     level: "400L",
                     matricNo: "19/52HO084",
                     name: "OLOWO, Karen Bola",
+                    position: "",
                 },
             ]
         },
@@ -36,16 +38,18 @@ const ApiStudents: APIStudents = {
             Department: "Mass Communication",
             Students: [
                 {
-                    id: 1,
+                    id: 4,
                     level: "400L",
-                    matricNo: "19/52HJ89",
+                    matricNo: "19/52HJ089",
                     name: "AFOLAYAN, Anuoluwa Taiwo",
+                    position: "",
                 },
                 {
-                    id: 2,
+                    id: 5,
                     level: "200L",
-                    matricNo: "21/52HJ89",
+                    matricNo: "21/52HJ089",
                     name: "OLUWOLE, Victor James",
+                    position: "",
                 },
             ],
         },

@@ -1,7 +1,7 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import profile from "@/assets/images/avatar.svg";
+import profile from "@/assets/images/ProfilePic.png";
 import HamburgerMenu from "@/icons/hamburger.icon";
 import InboxIcon from "@/icons/inbox.icon";
 import { propsType } from "@/types/aside-menu";
@@ -29,15 +29,18 @@ export const HeaderIndex = ({value, stateToggle, stateModal}: propsType) => {
         <div className="px-4 py-6 flex flex-col gap-4 mb-4">
           <div className="flex justify-between items-start">
             <div className="flex relative" onClick={modalFunc}>
-              <Image src={profile} alt="profile avatar" height={40} width={40} className="rounded-full text-center mb-1 xs:h-[35px] xs:w-[35px] sm:h-10 sm:w-10 " />
-              <EditIcon width={20} height={20} className="absolute -right-3 bottom-1 xs:w-4 xs:h-4 sm:w-5 sm:h-5 " />
+              <Image src={profile} alt="profile avatar" height={40} width={40} className="rounded-full text-center mb-1 xs:h-[35px] xs:w-[35px] sm:h-10 sm:w-10 border border-app-grey " />
+              <EditIcon width={20} height={20} className="absolute -right-3 bottom-1 xs:w-4 xs:h-4 sm:w-5 sm:h-5" />
             </div>
             <HamburgerMenu width={35} height={40} onClick={toggleMenu} className="xs:w-[30px] xs:h-[35px] sm:w-[35px] sm:h-[40px] " />
           </div>
           {/* do not forget username should only present maximum of two whitespaces */}
-          <span className="inline-flex w-full max-w-[18.5rem] font-bold xs:text-base sm:text-lg leading-6 break-keep">
-            OLOWOYORI EMMANUEL TAIWO
-          </span>
+          <div className="flex flex-wrap max-w-[18.5rem]">
+            <span className="inline-flex w-full font-bold xs:text-base sm:text-lg leading-6 break-keep">
+              OLOWOYORI EMMANUEL TAIWO
+            </span>
+            <span className="w-full text-app-grey font-normal xs:text-sm` sm:text-base ">(Trinity)</span>
+          </div>
         </div>
         <div className="px-4 py-6 flex flex-col justify-between border-t border-app-grey ">
           {/* navigations at the side-bar */}

@@ -5,7 +5,7 @@ import Logo from "@/components/logo";
 import { HeaderIndex } from "@/components/header";
 import FooterIndex from "@/components/footer";
 import { ReactNode, createContext, useState } from "react";
-import profile from "@/assets/images/avatar.svg";
+import profile from "@/assets/images/ProfilePic.png";
 import CollapsedMenu from "@/icons/collapsed.icon";
 import DashboardIcon from "@/icons/dashboard.icon";
 import MessagesIcon from "@/icons/messages.icon";
@@ -75,7 +75,7 @@ const GeneralPage = ({children}: {children: React.ReactNode}) => {
         {/* toggle just like an hamburger menubar */}
         {
           (toggle) ? <div className="flex flex-col items-center p-[.35rem] py-7 xs:gap-4 lg:gap-7 ">
-            <Image src={profile} alt="profile avatar" height={40} width={40} className="rounded-full text-center mb-1 xs:h-[35px] xs:w-[35px] sm:h-10 sm:w-10" onClick={() => isModal(!modal)} />
+            <Image src={profile} alt="profile avatar" height={40} width={40} className="rounded-full text-center mb-1 xs:h-[35px] xs:w-[35px] sm:h-10 sm:w-10 border border-app-grey" onClick={() => isModal(!modal)} />
             <CollapsedMenu width={27} height={27} onClick={ ()=> clicker(!toggle) } />
             {
               links.map((nav, i) => (
@@ -102,7 +102,7 @@ const GeneralPage = ({children}: {children: React.ReactNode}) => {
               links.map((nav, i) => (
                 <>
                   {(pathname === nav.path) && (
-                    <div className="flex flex-nowrap items-center h-10">
+                    <div key={i} className="flex flex-nowrap items-center h-10">
                       <span className="text-app-yellow">/ </span>&nbsp;<span className="text-app-primary xs:text-sm sm:text-base">{nav.name}</span>
                     </div>
                   )}
@@ -113,8 +113,6 @@ const GeneralPage = ({children}: {children: React.ReactNode}) => {
           {children}
         </div>
       </main>
-
-
     </>
   );
 }

@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model admin {
+  ID           Int       @id @default(autoincrement())
+  MatricNumber String    @db.VarChar(15)
+  Login        Int?
+  student      student   @relation(fields: [MatricNumber], references: [MatricNumber], onUpdate: Restrict, map: "admin_ibfk_1")
+  message      message[]
+  timer        timer[]
+
+  @@index([MatricNumber], map: "MatricNumber")
+}
+
+model contestant {
+  ID           Int      @id @default(autoincrement())
+  MatricNumber String   @db.VarChar(15)
+  PortFolio    String   @db.VarChar(40)
+  Vote         Int      @default(0)
+  Position     String?  @db.VarChar(10)
+  VoteTime     DateTime @db.DateTime(0)
+  student      student  @relation(fields: [MatricNumber], references: [MatricNumber], onUpdate: Restrict, map: "contestant_ibfk_1")
+
+  @@index([MatricNumber], map: "MatricNumber")
+}
+
+model message {
+  ID              Int      @id @default(autoincrement())
+  AdminID         Int
+  Statement       String   @db.VarChar(255)
+  MessageDate     DateTime @db.DateTime(0)
+  BackupStatement String   @db.VarChar(5)
+  admin           admin    @relation(fields: [AdminID], references: [ID], onUpdate: Restrict, map: "message_ibfk_1")
+
+  @@index([AdminID], map: "AdminID")
+}
+
+model student {
+  ID           Int            @id @default(autoincrement())
+  MatricNumber String         @unique(map: "MatricNumber") @db.VarChar(15)
+  Name         String         @db.VarChar(100)
+  PostalName   String?        @default("Nickname") @db.VarChar(50)
+  LevelClass   String         @db.VarChar(5)
+  Passport     Bytes?
+  Department   String         @db.VarChar(50)
+  PortFolio    String?        @db.VarChar(40)
+  Registered   Boolean?       @default(false)
+  Passcode     String         @db.VarChar(255)
+  OTP          Int?
+  admin        admin[]
+  contestant   contestant[]
+  validatevote validatevote[]
+}
+
+model timer {
+  ID        Int      @id @default(autoincrement())
+  AdminID   Int
+  StartTime DateTime @db.DateTime(0)
+  EndTime   DateTime @db.DateTime(0)
+  admin     admin    @relation(fields: [AdminID], references: [ID], onUpdate: Restrict, map: "timer_ibfk_1")
+
+  @@index([AdminID], map: "AdminID")
+}
+
+model validatevote {
+  ID           Int     @id @default(autoincrement())
+  MatricNumber String  @db.VarChar(15)
+  Vote         Int     @default(0)
+  VoteTime     String  @db.VarChar(50)
+  student      student @relation(fields: [MatricNumber], references: [MatricNumber], onUpdate: Restrict, map: "validatevote_ibfk_1")
+
+  @@index([MatricNumber], map: "MatricNumber")
+}
