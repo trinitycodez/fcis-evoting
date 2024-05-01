@@ -1,7 +1,7 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { LoginFormSchema, FormState } from "../formvalidator";
-import { NextResponse } from "next/server";
 
 interface res {
   message: string,
@@ -24,7 +24,6 @@ export async function Login(state: FormState, formData: FormData) {
     }
   }
 
-  console.log(validatedFields.data);
   // Call the provider or db to create a user...
   try {
     const { matricNum, password } = validatedFields.data
@@ -48,14 +47,17 @@ export async function Login(state: FormState, formData: FormData) {
       body: mainData,
     });
 
+    
     const data: res = await res.json();
     if (data.status === 401) {
-      throw new Error(data.message);
+      console.log(data.status)
+      throw data.message
     }
-    console.log(data.message);
 
-    NextResponse.redirect(new URL('/'))
-    
+    console.log('came back')
+    return {
+      message: data.message,
+    }
     
   } catch (error: any) {
     const err: string = error;

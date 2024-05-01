@@ -1,39 +1,39 @@
-"use server";
+"server-only";
 
 import { createSession } from "@/app/lib/server/session";
 import { PrismaClient } from "@prisma/client";
+
 
 const prisma = new PrismaClient();
 interface typeData {
   matricNum: string,
   password: string,
-  passport: {}
+  passport: {
+    data: number[]
+  }
 }
 
 
 export const POST = async (req: Request) => {
+  console.log("SERVER-SIDE");
 
   try {
     const holdValApi: typeData = await req.json();
     const { matricNum, password, passport } = holdValApi
+    console.log(passport);
 
-    console.log(holdValApi);
-    const users = await prisma.student.update({
+    const user = await prisma.student.update({
       where: {
         MatricNumber: matricNum
       },
       data: {
         Registered: true,
         Passcode: password,
-        Passport: passport
+        Passport: Buffer.from(passport.data)
       },
     });
-    console.log(`this is the SQL result =>`, users);
+    console.log(`this is the SQL result =>`, user);
 
-    const res = JSON.stringify({
-      message: "Successful",
-      status: 200
-    });
 
     const userID = await prisma.student.findUnique({
       select: {
@@ -42,9 +42,15 @@ export const POST = async (req: Request) => {
       where: {
         MatricNumber: matricNum,
       }
-    })
-    await createSession(`${userID}`) // some string matric
+    });
+
+    await createSession(`${userID}`); // create session for subsequent login
     
+    const res = JSON.stringify({
+      message: "Success",
+      status: 200
+    });
+
     return new Response(res, {
       headers: {
         'Content-Type': 'application/json',

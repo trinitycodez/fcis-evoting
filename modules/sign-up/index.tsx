@@ -13,7 +13,6 @@ const SignUpIndex = () => {
   const [values, dispatch] = useReducer(reducer, initialState);
   const { matric, image, password, pwd_message, matN_message, userImgMsg } = values;
   const [isVisible, setVisible] = useState(true);
-  // const [isMsg, setMsg] = useState("");
   const matricNumRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLInputElement>(null);
   const pwdRef = useRef<HTMLInputElement>(null);
@@ -31,13 +30,14 @@ const SignUpIndex = () => {
     }, 300);
   }
 
-  if (state?.message === 'Successful') {
+  if (state?.message === 'Success') {
+    'use server'
     alert("You've successfully registered this account.");
-    setTimeout(() => {
-      router.replace('/auth/login')
-    }, 1500)
-  } else if (state?.message === 'error') {
+    router.replace('/auth/login');
+  } else if (state?.message === 'Error') {
+    'use server'
     alert("Unable to register this account. Kindly check your internet connection or try again.");
+    state.message = '';
   }
 
   
@@ -54,7 +54,7 @@ const SignUpIndex = () => {
     <div className='flex flex-col text-left xs:w-60 xp:w-[17rem] sm:w-72 lg:w-80 gap-6'>
       <h2 className='font-extrabold text-app-primary xs:text-2xl md:text-3xl text-center'>Sign up</h2>
       
-      <form method="POST" autoComplete='OFF' onSubmit={clearData} action={ (formData) => { sign_up(formData) }} id="form_signup" noValidate={false} className='border-y-2 border-y-app-grey text-base py-3'>
+      <form method="POST" onSubmit={clearData} action={ (formData) => { sign_up(formData) }} id="form_signup" noValidate={false} className='border-y-2 border-y-app-grey text-base py-3'>
         {/* MATRIC-NUMBER */}
         <label htmlFor="matricNum" className="inline-block mb-2 font-semibold after:content-['*'] after:text-red-500">Matric. NO_ </label>
         <br />

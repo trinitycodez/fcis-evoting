@@ -8,7 +8,9 @@ interface res {
   status: number
 }
 
+
 export async function Submit(state: FormState, formData: FormData) {
+
   // Validate form fields
   const validatedFields = SignupFormSchema.safeParse({
     matricNum: formData.get('matricNum'),
@@ -24,25 +26,30 @@ export async function Submit(state: FormState, formData: FormData) {
     }
   }
 
-  // console.log(formData.get('userImage'))
+  // blob image to upload
+  const file: File | null = formData.get('userImage') as unknown as File;
+  const bytes = await file.arrayBuffer();
+  const buffer = Buffer.from(bytes);
+  console.log(buffer);
+
+
   // Call the provider or db to create a user...
   try {
-    const { matricNum, password, passport } = validatedFields.data
+    const { matricNum, password } = validatedFields.data
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt);
     const userData = {
       matricNum: matricNum,
       password: hashedPassword,
-      passport: passport
+      passport: buffer,
     }
     const mainData = JSON.stringify(userData);
 
-    console.log(mainData)
     const res = await fetch(`${process.env.NEXT_AUTH_URL}/auth/sign-up/api`, {
       method: "POST",
       mode: "cors",
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
         'API-Key': process.env.AUTH_SECRET!,
         'Origin': process.env.NEXT_AUTH_URL!,
         'Access-Control-Request-Headers': 'X-PINGOTHER, Content-Type',
@@ -53,9 +60,8 @@ export async function Submit(state: FormState, formData: FormData) {
 
     const data: res = await res.json();
     if (data.status === 401) {
-      throw new Error(data.message);
+      throw data.message;
     }
-    console.log(data.message);
     return {
       message: data.message,
     }
@@ -105,3 +111,9 @@ export async function Submit(state: FormState, formData: FormData) {
 //         })
 //     }
 // }
+// import { join } from "path"
+// import { writeFile } from "fs/promises"
+
+  // const path = join('/', 'assets', file.name)
+  // await writeFile(path, buffer);
+

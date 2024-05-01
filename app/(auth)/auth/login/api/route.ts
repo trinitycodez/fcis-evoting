@@ -1,8 +1,7 @@
-"use server";
+"server-only";
 
 import { plainTextRes } from "@/types/prisma-sql";
 import { PrismaClient } from "@prisma/client";
-import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 interface typeData {
@@ -29,10 +28,10 @@ export const POST = async (req: Request) => {
 
         console.log(`this is the SQL result =>`, users);
         
-        const res = await plainTextRes(password, users!.Passcode)
-        if ( res === true) {
+        const res = await plainTextRes(password, users!.Passcode);
+        if ( res === true ) {
             const payload = JSON.stringify({
-                message: "Successful",
+                message: "Success",
                 status: 200
             });
             

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { initialState, reducer } from '@/types/validate';
 import { useFormState, useFormStatus } from 'react-dom';
 import { Login } from '@/app/lib/server/validate-login/login';
+import { useRouter } from 'next/navigation';
 
 // component
 const LoginIndex = () => {
@@ -17,6 +18,7 @@ const LoginIndex = () => {
   const otpRef = useRef<HTMLSpanElement>(null);
   const [state, login] = useFormState(Login, undefined);
   const { pending } = useFormStatus();
+  const router = useRouter();
 
   const clearData = () => {
     setTimeout(() => {
@@ -27,8 +29,13 @@ const LoginIndex = () => {
     }, 300);
   }
 
-  if (state?.message === 'error') {
+  if (state?.message === 'Success') {
+    'use server'
+    router.replace('/')
+  } else if (state?.message === 'Error') {
+    'use server'
     alert("Unable to login this account. Kindly check your internet connection or try again.");
+    state.message = '';
   }
 
   useEffect(() => {
@@ -45,7 +52,7 @@ const LoginIndex = () => {
     <div className='flex flex-col text-left xs:w-60 xp:w-[17rem] sm:w-72 lg:w-80 gap-6'>
       <h2 className='font-extrabold text-app-primary xs:text-2xl md:text-3xl text-center'>Login</h2>
 
-      <form method="POST" autoComplete='OFF' onSubmit={clearData} action={ (formData) => { login(formData) }} id="form_signup" noValidate={false} className='border-y-2 border-y-app-grey text-base py-3'>
+      <form method="POST" onSubmit={clearData} action={ (formData) => { login(formData) }} id="form_signup" noValidate={false} className='border-y-2 border-y-app-grey text-base py-3'>
         {/* MATRIC-NUMBER */}
         <label htmlFor="matricNum" className="inline-block mb-2 font-semibold after:content-['*'] after:text-red-500">Matric. NO_ </label>
         <br />

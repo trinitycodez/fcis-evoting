@@ -15,11 +15,10 @@ export const SignupFormSchema = z.object({
         .trim(),
     passport: z
         .any()
-        .optional()
-        .refine((files: File) => {
+        .refine((files: Blob) => {
             return !files || files.size <= MAX_UPLOAD_SIZE;
         }, { message: 'File size must be less than 1MB' } )
-        .refine((files: File) => {
+        .refine((files: Blob) => {
             return files && ACCEPTED_FILE_TYPES.includes(files.type);
         }, { message: 'Either insert passport with .png, .jpeg or .jpg file extension' } ),
 })
@@ -44,7 +43,6 @@ export const ModalFormSchema = z.object({
         .trim(),
     passport: z
         .any()
-        .optional()
         .refine((files: File) => {
             return !files || files.size <= MAX_UPLOAD_SIZE;
         }, { message: 'File size must be less than 1MB' } )

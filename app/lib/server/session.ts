@@ -39,5 +39,5 @@ export async function createSession(userId: string) {
 }
 
 export function deleteSession() {
-    cookies().delete('session');
+    cookies().delete('Session');
 }
