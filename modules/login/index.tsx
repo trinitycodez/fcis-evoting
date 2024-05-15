@@ -25,7 +25,7 @@ const LoginIndex = () => {
       dispatch({
         type: "ALL",
         payload: ""
-      })
+      });
     }, 300);
   }
 
@@ -34,8 +34,8 @@ const LoginIndex = () => {
     router.replace('/')
   } else if (state?.message === 'Error') {
     'use server'
-    alert("Unable to login this account. Kindly check your internet connection or try again.");
     state.message = '';
+    alert("Unable to login this account. Kindly check your internet connection or try again.");
   }
 
   useEffect(() => {

@@ -12,6 +12,7 @@ const ApiStudents: APIStudents = {
                     matricNo: "19/52HL085",
                     name: "OLOWOYORI, Emmanuel Taiwo",
                     position: "General Secretary",
+                    gender: "M"
                 },
                 {
                     id: 2,
@@ -19,6 +20,7 @@ const ApiStudents: APIStudents = {
                     matricNo: "20/52HL088",
                     name: "OLUSOLA, Samson",
                     position: "",
+                    gender: "M"
                 },
             ],
         },
@@ -31,6 +33,7 @@ const ApiStudents: APIStudents = {
                     matricNo: "19/52HO084",
                     name: "OLOWO, Karen Bola",
                     position: "",
+                    gender: "F"
                 },
             ]
         },
@@ -43,6 +46,7 @@ const ApiStudents: APIStudents = {
                     matricNo: "19/52HJ089",
                     name: "AFOLAYAN, Anuoluwa Taiwo",
                     position: "",
+                    gender: "F"
                 },
                 {
                     id: 5,
@@ -50,6 +54,7 @@ const ApiStudents: APIStudents = {
                     matricNo: "21/52HJ089",
                     name: "OLUWOLE, Victor James",
                     position: "",
+                    gender: "M"
                 },
             ],
         },

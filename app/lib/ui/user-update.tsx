@@ -1,7 +1,9 @@
+'use client'
 import { initialState, reducer } from "@/types/validate";
 import { FC, useReducer, useRef } from "react"
 import { useFormState, useFormStatus } from "react-dom";
 import { Update } from "../server/update/update-acct";
+import { useRouter } from "next/navigation";
 
 const UserUpdate: FC = () => {
   const [values, dispatch] = useReducer(reducer, initialState)
@@ -10,10 +12,34 @@ const UserUpdate: FC = () => {
   const imageRef = useRef<HTMLInputElement>(null);
   const [state, update_acct] = useFormState(Update, undefined)
   const { pending } = useFormStatus();
+  const router = useRouter()
+
+
+  const clearData = () => {
+    setTimeout(() => {
+      dispatch({
+        type: "ALL",
+        payload: ""
+      })
+    }, 300);
+  }
+
+
+  if (state?.message === 'Success') {
+    'use server'
+    state.message = '';
+    alert("You've successfully updated this account.");
+    router.replace('/auth/login');
+  } else if (state?.message === 'Error') {
+    'use server'
+    state.message = '';
+    alert("Unable to update this account. Kindly check your internet connection or try again.");
+  }
+
 
   return (
     <>
-      <form method="POST" action={(!postalNameMsg && !userImgMsg )? update_acct:"#"} className="flex flex-col relative justify-center p-8 w-full xp:max-w-[19rem] sm:max-w-[30rem] xs:h-full sm:h-fit max-h-[80vh] overflow-y-auto overflow-x-hidden bg-app-light-primary xs:rounded-t-xl xp:rounded-none shadow-lg" onClick={(e)=> e.stopPropagation()}>
+      <form method="POST" action={ (formData) => { update_acct(formData) }} onSubmit={clearData} className="flex flex-col relative justify-center p-8 w-full xp:max-w-[19rem] sm:max-w-[30rem] xs:h-full sm:h-fit max-h-[80vh] overflow-y-auto overflow-x-hidden bg-app-light-primary xs:rounded-t-xl xp:rounded-none shadow-lg" onClick={(e)=> e.stopPropagation()}>
         {/* POSTAL-NAME  */}
         <div className="flex flex-col gap-2 mb-4">
           <label htmlFor="postalName" className="inline-block font-semibold w-fit after:content-['*'] after:text-red-500">Postal Name: </label>
@@ -23,7 +49,7 @@ const UserUpdate: FC = () => {
             payload: `${postalNameRef.current?.value}`
           })}} />
         </div>
-        { state?.errors.nickname && 
+        { state?.errors?.nickname && 
         <span className="flex h-fit text-xs text-red-500 w-full -mt-3 ml-[0.15rem] mb-4 ">
           {state.errors.nickname}
         </span> }
@@ -40,7 +66,7 @@ const UserUpdate: FC = () => {
             payload: `${imageRef.current?.value}`
           })}} />
         </div>
-        { state?.errors.passport && 
+        { state?.errors?.passport && 
         <span className="flex h-fit text-xs text-red-500 w-full -mt-3 ml-[0.15rem] mb-8 ">
           {state.errors.passport}
         </span> }

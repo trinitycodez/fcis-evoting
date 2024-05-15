@@ -7,7 +7,7 @@ const Modal = ({ children }: { children: React.ReactNode }) => {
         setValue(!value);
     }
     return (
-        <div onClick={changestate} className='w-full h-full xs:bg-app-text-sub/75 xp:bg-app-white/95 flex flex-col xs:justify-end xp:justify-center items-center absolute z-[55] '>
+        <div onClick={changestate} className='w-full h-full xs:bg-app-text-sub/75 xp:bg-app-white/[.88] backdrop-blur-sm backdrop-saturate-[1.8] flex flex-col xs:justify-end xp:justify-center items-center absolute z-[55] '>
             {children}
         </div>
     )

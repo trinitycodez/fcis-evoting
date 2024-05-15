@@ -6,22 +6,45 @@ import HamburgerMenu from "@/icons/hamburger.icon";
 import InboxIcon from "@/icons/inbox.icon";
 import { propsType } from "@/types/aside-menu";
 import EditIcon from "@/icons/edit.icon";
+import { ReactNode } from "react";
+import { useSomeContext } from "@/app/lib/server/context-provider";
 
 const links = [
   { path: "/", name: "Dashboard" },
   { path: "/messages", name: "Messages"},
   { path: "/past-elections", name: "Past elections"},
-  { path: "/policies", name: "Policies"},
   { path: "/about", name: "About us"},
   { path: "/students", name: "Students lists"},
+  { path: "/auth/sign-up", name: "Logout"},
 ];
 
 // component, return to the home modules index
-export const HeaderIndex = ({value, stateToggle, stateModal}: propsType) => {
-  const pathname = usePathname();
+export const HeaderIndex =  ({value, stateToggle, stateModal}: propsType) => {
 
+  const user = useSomeContext(); // session user admin (object[]) | student (null)
+
+  const pathname = usePathname();
+  
+  const user__DEFF = () => {
+    const arr: ReactNode[] = [];
+    for (let i = 0; i < links.length; i++) {
+      if (i === 4 && (user === 'null')) continue; // user a Student
+      arr.push(
+        <li key={i+1} className={`flex items-center relative hover:border-l-2 rounded-tl-sm rounded-bl-sm hover:bg-app-light-primary/60 hover:text-app-text-sub hover:border-l-app-yellow hover:font-bold p-1 transition-all duration-75 ${pathname === links[i].path ? "font-bold border-l-2 border-l-app-yellow bg-app-light-primary/60 text-app-text-sub":""} `}>
+          <Link href={links[i].path}>
+            {links[i].name}
+          </Link>
+          {/* new message indicator from Admin(s) */}
+          { (links[i].name === "Messages") && <InboxIcon /> }
+        </li>
+      );
+    }
+    return arr;
+  }
+  
   const toggleMenu = () => stateToggle(!value);
   const modalFunc = () => stateModal(true);
+
 
   return (
     <>
@@ -46,15 +69,7 @@ export const HeaderIndex = ({value, stateToggle, stateModal}: propsType) => {
           {/* navigations at the side-bar */}
           <ul className="flex flex-col list-none gap-1 font-normal xs:text-base sm:text-lg">
             {
-              links.map((nav, i) => (
-                <li key={i} className={`flex items-center relative hover:border-l-2 rounded-tl-sm rounded-bl-sm hover:bg-app-green/90 hover:text-app-white hover:border-l-app-yellow hover:font-bold p-1 transition-all duration-75 ${pathname === nav.path ? "font-bold border-l-2 border-l-app-yellow bg-app-green/90 text-app-white":""} `}>
-                  <Link href={nav.path}>
-                    {nav.name}
-                  </Link>
-                  {/* new message indicator */}
-                  { (nav.name === "Messages") && <InboxIcon /> }
-                </li>
-              ))
+              user__DEFF()
             }
           </ul>
         </div>

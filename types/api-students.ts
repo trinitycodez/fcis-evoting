@@ -7,6 +7,7 @@ export interface APIStudents {
             name: string,
             level: string,
             position?: string,
+            gender: string
         }[],
     }[],
 }

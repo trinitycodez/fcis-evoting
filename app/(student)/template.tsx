@@ -4,28 +4,30 @@ import Image from "next/image";
 import Logo from "@/components/logo";
 import { HeaderIndex } from "@/components/header";
 import FooterIndex from "@/components/footer";
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 import profile from "@/assets/images/ProfilePic.png";
 import CollapsedMenu from "@/icons/collapsed.icon";
 import DashboardIcon from "@/icons/dashboard.icon";
 import MessagesIcon from "@/icons/messages.icon";
 import PrevElection from "@/icons/prev-elect.icon";
 import AboutIcon from "@/icons/about.icon";
-import PoliciesIcon from "@/icons/policies.icon";
+import LogoutIcon from "@/icons/logout.icon";
 import Link from "next/link";
 import StudentsList from "@/icons/list-stds.icon";
 import ModalIndex from "../lib/ui";
 import { modalPropsType } from "@/types/modal";
+import { useSomeContext } from "../lib/server/context-provider";
 
 export const UserContext = createContext<modalPropsType>({value: false, setValue(val) {return}});
 // do not forget to remove the list of students for it is meant for admins only
+
 export const links = [
-  { path: "/", name: "Dashboard", txt: "Dashboard", icon: <DashboardIcon width={27} height={27} />},
-  { path: "/messages", name: "Messages", txt: "Messages", icon: <MessagesIcon width={27} height={27} />},
+  { path: "/", name: "Dashboard", txt: "Dashboard", icon: <DashboardIcon width={26} height={26} />},
+  { path: "/messages", name: "Messages", txt: "Messages", icon: <MessagesIcon width={26} height={26} />},
   { path: "/past-elections", name: "Past-elections", txt: "Past Elections", icon: <PrevElection width={27} height={27} />},
-  { path: "/policies", name: "Policies", txt: "Terms & Conditions", icon:  <PoliciesIcon width={27} height={27} />},
   { path: "/about", name: "About", txt: "About us", icon: <AboutIcon width={27} height={27} />},
   { path: "/students", name: "Students", txt: "Students list", icon: <StudentsList width={27} height={27} />},
+  { path: "/auth/sign-up", name: "Logout", txt: "Logout", icon:  <LogoutIcon width={27} height={27} />},
 ]
 
 const holdObj = {
@@ -38,15 +40,17 @@ const holdObj = {
   layerWrapper: false,
 }
 
-// constant component route page === '/**'
-const GeneralPage = ({children}: {children: React.ReactNode}) => {
+// constant Template component page === '/**'
+const GeneralPage = ({ children }: { children: React.ReactNode }) => {
   const [toggle, isToggle] = useState(true); // func
   const [togLayout, isTogLayout] = useState(false); // clicker
   const [modal, isModal] = useState(false); // modal overlay
   const pathname = usePathname();
 
+  const user = useSomeContext(); // session user admin (object[]) | student (null)
+
   const layout = () => {
-    const holdVal:ReactNode[] = [];
+    const holdVal: ReactNode[] = [];
     holdVal.push(
       <div className="bg-app-white/70 z-30 w-full h-full absolute" onClick={() => clicker(!toggle)}></div>
     )
@@ -62,6 +66,26 @@ const GeneralPage = ({children}: {children: React.ReactNode}) => {
     isTogLayout(false);
   }
 
+  const user__DEF = () => {
+    const arr: ReactNode[] = [];
+    for (let i = 0; i < links.length; i++) {
+      if (i === 4 && (user === 'null')) continue; // user a Student
+      arr.push(
+        <Link key={i+1} title={links[i].txt} href={links[i].path}>
+          {links[i].icon}
+        </Link>
+      )
+    }
+    return arr;
+  }
+
+  useEffect(() => {
+    // localStorage on register for received messages
+    localStorage.setItem('_alert_msg', '0');
+
+  }, [])
+  
+
   return (
     <>
       { togLayout && (layout()) }
@@ -76,13 +100,9 @@ const GeneralPage = ({children}: {children: React.ReactNode}) => {
         {
           (toggle) ? <div className="flex flex-col items-center p-[.35rem] py-7 xs:gap-4 lg:gap-7 ">
             <Image src={profile} alt="profile avatar" height={40} width={40} className="rounded-full text-center mb-1 xs:h-[35px] xs:w-[35px] sm:h-10 sm:w-10 border border-app-grey" onClick={() => isModal(!modal)} />
-            <CollapsedMenu width={27} height={27} onClick={ ()=> clicker(!toggle) } />
+            <CollapsedMenu width={27} height={27} onClick={() => clicker(!toggle) } />
             {
-              links.map((nav, i) => (
-                <Link key={i} title={nav.txt} href={nav.path}>
-                  {nav.icon}
-                </Link>
-              ))
+              user__DEF()
             }
           </div>
           : <>

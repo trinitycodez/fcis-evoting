@@ -43,14 +43,21 @@ export const ModalFormSchema = z.object({
         .trim(),
     passport: z
         .any()
-        .refine((files: File) => {
+        .refine((files: Blob) => {
             return !files || files.size <= MAX_UPLOAD_SIZE;
         }, { message: 'File size must be less than 1MB' } )
-        .refine((files: File) => {
+        .refine((files: Blob) => {
             return files && ACCEPTED_FILE_TYPES.includes(files.type);
         }, { message: 'Either insert passport with .png, .jpeg or .jpg file extension' } ),
 })
- 
+
+export const MessageFormSchema = z.object({
+    msg: z
+        .string()
+        .min(3, { message: 'Be at least 5 characters long.' })
+        .trim(),
+})
+
 export type FormState =
     |   {
             errors?: {
@@ -58,6 +65,7 @@ export type FormState =
                 passport?: string[]
                 password?: string[]
                 nickname?: string[]
+                msg?: string[]
             }
             message?: string
         }

@@ -1,7 +1,7 @@
 import CanvasChart from "./chartCanvas";
 
 // this is the dashboard === '/'
-const HomeDashboard = () => {
+const HomeDashboard = async () => {
 
   return (
     <>

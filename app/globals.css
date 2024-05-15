@@ -35,7 +35,16 @@
 .app-container-icons {
   @apply min-w-64 w-full xs:ml-3 sm:ml-12 md:ml-16 lg:ml-28 min-h-screen;
 }
+.backdrop-blur-sm {
+  -webkit-backdrop-filter: saturate(180%) blur(4px);
 
+}
+
+/* This is for blur navbar bg */
+/* box-shadow: inset 0 -1px 0 0 var(--accents-2);
+transform: translateZ(0);
+backdrop-filter: saturate(180%) blur(5px);
+background: hsla(0, 0%, 100%, .8); */
 /* 
 primary: #814226,
 green: "#2B372A",

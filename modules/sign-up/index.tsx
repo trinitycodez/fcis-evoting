@@ -8,6 +8,10 @@ import { initialState, reducer } from '@/types/validate';
 import { useFormState, useFormStatus } from 'react-dom';
 import { useRouter } from 'next/navigation';
 
+
+const awaiting = () => {
+  const { pending } = useFormStatus();
+}
 // component
 const SignUpIndex = () => {
   const [values, dispatch] = useReducer(reducer, initialState);
@@ -18,8 +22,7 @@ const SignUpIndex = () => {
   const pwdRef = useRef<HTMLInputElement>(null);
   const [state, sign_up] = useFormState(Submit, undefined);
   const { pending } = useFormStatus();
-  const router = useRouter()
-
+  const router = useRouter();
 
   const clearData = () => {
     setTimeout(() => {
@@ -32,12 +35,13 @@ const SignUpIndex = () => {
 
   if (state?.message === 'Success') {
     'use server'
+    state.message = '';
     alert("You've successfully registered this account.");
     router.replace('/auth/login');
   } else if (state?.message === 'Error') {
     'use server'
-    alert("Unable to register this account. Kindly check your internet connection or try again.");
     state.message = '';
+    alert("Unable to register this account. Kindly check your internet connection or try again.");
   }
 
   

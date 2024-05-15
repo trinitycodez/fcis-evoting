@@ -1,12 +1,13 @@
 "server-only";
 
+import { decrypt, verifySession } from "@/app/lib/server/session";
 import { PrismaClient } from "@prisma/client";
+import { cookies } from "next/headers";
+
 
 const prisma = new PrismaClient();
-
 interface typeData {
-  matricNum: string,
-  password: string,
+  nickname: string,
   passport: {
     data: number[]
   }
@@ -14,25 +15,27 @@ interface typeData {
 
 
 export const POST = async (req: Request) => {
-  console.log("SERVER-SIDE");
+  console.log("SERVER-SIDE DATA UPDATE");
 
   try {
     const holdValApi: typeData = await req.json();
-    const { matricNum, password, passport } = holdValApi
+    const { nickname, passport } = holdValApi
     console.log(passport);
+
+    const ukey = await verifySession() as {isAuth:boolean, userMatric:string};
+    const { userMatric } = ukey;
 
     const user = await prisma.student.update({
       where: {
-        MatricNumber: matricNum
+        MatricNumber: userMatric
       },
       data: {
-        Registered: true,
-        Passcode: password,
+        PostalName: nickname,
         Passport: Buffer.from(passport.data)
       },
     });
-    console.log(`this is the SQL result =>`, user);
 
+    console.log("User SQL retrived ", user);
 
     const res = JSON.stringify({
       message: "Success",
@@ -57,4 +60,3 @@ export const POST = async (req: Request) => {
     return new Response(res);
   }
 }
-

@@ -3,11 +3,11 @@ import Image from 'next/image';
 import imgLogo from "@/assets/images/cissa.png";
 
 const arrDepts = [
-    {name: "Information Technology", image: imgLogo},
-    {name: "Library and Information Science", image: imgLogo},
-    {name: "Computer Science", image: imgLogo},
-    {name: "Mass Communication", image: imgLogo},
-    {name: "Telecommunication Science", image: imgLogo},
+    { name: "Information Technology", image: imgLogo },
+    { name: "Library and Information Science", image: imgLogo },
+    { name: "Computer Science", image: imgLogo },
+    { name: "Mass Communication", image: imgLogo },
+    { name: "Telecommunication Science", image: imgLogo },
 ]
 
 const AboutIndex: NextPage = () => {

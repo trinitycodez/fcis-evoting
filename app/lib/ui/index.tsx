@@ -6,7 +6,7 @@ const ModalIndex = () => {
   return (
     <>
       <Modal>
-          <UserUpdate />
+        <UserUpdate />
       </Modal>
     </>
   )

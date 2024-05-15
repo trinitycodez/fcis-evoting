@@ -8,11 +8,9 @@ datasource db {
 }
 
 model admin {
-  ID           Int       @id @default(autoincrement())
-  MatricNumber String    @db.VarChar(15)
-  Login        Int?
-  student      student   @relation(fields: [MatricNumber], references: [MatricNumber], onUpdate: Restrict, map: "admin_ibfk_1")
-  message      message[]
+  ID           Int     @id @default(autoincrement())
+  MatricNumber String  @db.VarChar(15)
+  student      student @relation(fields: [MatricNumber], references: [MatricNumber], onUpdate: Restrict, map: "admin_ibfk_1")
   timer        timer[]
 
   @@index([MatricNumber], map: "MatricNumber")
@@ -31,14 +29,12 @@ model contestant {
 }
 
 model message {
-  ID              Int      @id @default(autoincrement())
-  AdminID         Int
-  Statement       String   @db.VarChar(255)
-  MessageDate     DateTime @db.DateTime(0)
-  BackupStatement String   @db.VarChar(5)
-  admin           admin    @relation(fields: [AdminID], references: [ID], onUpdate: Restrict, map: "message_ibfk_1")
-
-  @@index([AdminID], map: "AdminID")
+  ID              String? @db.VarChar(15)
+  AdminID         Int?
+  Statement       String? @db.VarChar(255)
+  MessageDate     String? @db.VarChar(30)
+  BackupStatement String? @db.VarChar(255)
+  RowsNumber      Int     @id @default(autoincrement()) @db.SmallInt
 }
 
 model student {
@@ -53,6 +49,8 @@ model student {
   Registered   Boolean?       @default(false)
   Passcode     String         @db.VarChar(255)
   OTP          Int?
+  Gender       String         @db.Char(1)
+  SessionUse   String?        @db.VarChar(255)
   admin        admin[]
   contestant   contestant[]
   validatevote validatevote[]

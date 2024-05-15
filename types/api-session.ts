@@ -8,3 +8,8 @@ export interface APIContestants {
         UserImage: StaticImageData[],
     }[]
 }
+
+export interface SessionValidate { 
+    isAuth: boolean,
+    userMatric: string
+}

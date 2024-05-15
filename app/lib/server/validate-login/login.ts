@@ -1,11 +1,12 @@
 "use server";
 
-import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { LoginFormSchema, FormState } from "../formvalidator";
 
 interface res {
   message: string,
-  status: number
+  status: number,
+  sessionValue: string
 }
 
 export async function Login(state: FormState, formData: FormData) {
@@ -46,17 +47,26 @@ export async function Login(state: FormState, formData: FormData) {
       },
       body: mainData,
     });
-
     
     const data: res = await res.json();
+    const { sessionValue, message } = data;
     if (data.status === 401) {
       console.log(data.status)
       throw data.message
     }
+    const date = new Date( Date.now() + 7 * 24 * 60 * 60 * 1000 )
+    
+    console.log('came back');
+    cookies().set('session', sessionValue, {
+      httpOnly: true,
+      secure: true,
+      expires: date,
+      sameSite: 'strict',
+      path: '/'
+    });
 
-    console.log('came back')
     return {
-      message: data.message,
+      message: message,
     }
     
   } catch (error: any) {
