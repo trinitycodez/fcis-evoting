@@ -1,4 +1,5 @@
-'use server'
+"server-only"
+
 // export const runtime = 'experimental-edge';
 
 import type { NextRequest } from "next/server";
@@ -8,7 +9,7 @@ export const middleware = async (req: NextRequest) => {
     const cookie = req.cookies.has('session')
     const path = req.nextUrl.pathname;
     
-    if (cookie) {
+    if (cookie === true) {
         console.log("middleware cookie ", cookie);
         const res: any = req.cookies.get('session');
         console.log('Value ', res);
@@ -31,13 +32,18 @@ export const middleware = async (req: NextRequest) => {
                 break;
                 
             default:
-                NextResponse.redirect(new URL('/auth/sign-up', req.nextUrl))
                 break;
         }        
     }
-    NextResponse.redirect(new URL('/auth/sign-up', req.nextUrl))
+    
+    console.log(path)
+    const headers = new Headers(req.headers);
+    headers.set('X_path', path)     
+    
+    console.log('middleware code... ')
+    return NextResponse.next({headers});
 }
 
 export const config = {
-    matcher: [ '/((?!auth|api|_next/static|_next/image|favicon.ico).*)' ]
+    matcher: [ '/((?!api|assets|auth|_next/static|_next/image|favicon.ico).*)' ]
 }

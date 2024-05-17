@@ -1,4 +1,5 @@
-"use server";
+"server-only";
+// "use server";
 
 import { createSession } from "@/app/lib/server/session";
 import { plainTextRes } from "@/types/prisma-sql";

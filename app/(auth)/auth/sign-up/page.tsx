@@ -5,7 +5,7 @@ import { Metadata, NextPage } from "next";
 export const metadata: Metadata = {
   title: "Sign-up | FCIS-Evoting",
 }
-export interface dataSubmitProps extends initialType {};
+// export interface dataSubmitProps extends initialType {};
 
 const SignInPage:NextPage = () => {
 

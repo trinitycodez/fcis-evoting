@@ -1,6 +1,7 @@
 'server-only'
 import { SignJWT, jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
+import { NextResponse } from 'next/server'
 import { cache } from 'react'
  
 const secretKey = process.env.AUTH_SECRET
@@ -22,7 +23,7 @@ export async function decrypt(session: string | undefined = '') {
         return payload
     } catch (error) {
         console.log('Failed to verify session');
-        return error
+        return null
     }
 }
 
@@ -38,27 +39,29 @@ export async function updateSession() {
     const session = cookies().get('session')?.value;
     const payload = await decrypt(session);
     
-    if (!session || !payload) {
-        return null
+    if (session && payload) {
+        const expires = new Date(
+            Date.now() + 7 * 24 * 60 * 60 * 1000)
+            cookies().set('session', session, {
+                httpOnly: true,
+                secure: true,
+                expires: expires,
+                sameSite: 'strict',
+                path: '/'
+            }
+        );
     }
 
-    const expires = new Date(
-        Date.now() + 7 * 24 * 60 * 60 * 1000)
-        cookies().set('session', session, {
-            httpOnly: true,
-            secure: true,
-            expires: expires,
-            sameSite: 'strict',
-            path: '/'
-        }
-    );
 }
 
 export const verifySession = cache(
     async () => {        
         const session = cookies().get('session')?.value;
         const payload = await decrypt(session);
-        if (!session || !payload) return null;
+        if (!session || !payload) {
+            NextResponse.redirect(new URL('http://localhost:3000/auth/sign-up')); 
+            return null;
+        };
         const data = payload as { userMatric: string }
         return {
             isAuth: true,

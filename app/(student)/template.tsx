@@ -17,6 +17,7 @@ import StudentsList from "@/icons/list-stds.icon";
 import ModalIndex from "../lib/ui";
 import { modalPropsType } from "@/types/modal";
 import { useSomeContext } from "../lib/server/context-provider";
+import { AlertProvider } from "../lib/server/alert-provider";
 
 export const UserContext = createContext<modalPropsType>({value: false, setValue(val) {return}});
 // do not forget to remove the list of students for it is meant for admins only
@@ -45,8 +46,9 @@ const GeneralPage = ({ children }: { children: React.ReactNode }) => {
   const [toggle, isToggle] = useState(true); // func
   const [togLayout, isTogLayout] = useState(false); // clicker
   const [modal, isModal] = useState(false); // modal overlay
+  
   const pathname = usePathname();
-
+  
   const user = useSomeContext(); // session user admin (object[]) | student (null)
 
   const layout = () => {
@@ -81,7 +83,8 @@ const GeneralPage = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     // localStorage on register for received messages
-    localStorage.setItem('_alert_msg', '0');
+    const checker = localStorage.getItem('_alert_msg')
+    if (checker === null) localStorage.setItem('_alert_msg', '0');
 
   }, [])
   
@@ -96,7 +99,7 @@ const GeneralPage = ({ children }: { children: React.ReactNode }) => {
       )}
       <aside className={`${toggle? "app-aside-icons":"app-aside"} ${togLayout? " shadow-app-toggle xs:absolute":"xs:sticky"}
       flex flex-col left-0 top-0 h-screen justify-between gap-8 bg-app-primary text-app-grey-white z-50 ` }>
-        {/* toggle just like an hamburger menubar */}
+        {/* toggle just like an hamburger menu-bar */}
         {
           (toggle) ? <div className="flex flex-col items-center p-[.35rem] py-7 xs:gap-4 lg:gap-7 ">
             <Image src={profile} alt="profile avatar" height={40} width={40} className="rounded-full text-center mb-1 xs:h-[35px] xs:w-[35px] sm:h-10 sm:w-10 border border-app-grey" onClick={() => isModal(!modal)} />
@@ -106,7 +109,9 @@ const GeneralPage = ({ children }: { children: React.ReactNode }) => {
             }
           </div>
           : <>
-            <HeaderIndex value={toggle} stateToggle={(val:boolean) => clicker(val)} stateModal={(val: boolean) => isModal(val)} />
+            <AlertProvider>
+              <HeaderIndex value={toggle} stateToggle={(val: boolean) => clicker(val)} stateModal={(val: boolean) => isModal(val)} />
+            </AlertProvider>
             <FooterIndex />
           </>
         }

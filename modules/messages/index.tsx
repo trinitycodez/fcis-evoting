@@ -5,6 +5,7 @@ import { APIMsg } from '@/types/api-msg';
 import { useSomeContext } from '@/app/lib/server/context-provider';
 import { useFormState } from 'react-dom';
 import { Message } from '@/app/lib/server/validate-message/submit';
+import { useSomeAlert } from '@/app/lib/server/alert-provider';
 
 
 const presentView = (res: [APIMsg, number]) => {
@@ -22,15 +23,15 @@ const presentView = (res: [APIMsg, number]) => {
     return eachMsg;
   }
   for (let i = 0; i < totalApiMessages.length; i++) {
-    const {MessageDate, Statement, ID} = totalApiMessages[i];
+    const { MessageDate, Statement, ID } = totalApiMessages[i];
      eachMsg.push(
       <div key={i} className="flex flex-col relative w-fit p-4 pt-6 text-app-primary gap-6 bg-app-white shadow-lg rounded-md">
-        {/*  Announcer of new messagess */}
+        {/* Announcer of new messages */}
         {
           (i <= res[1]) && (
           <span className="flex absolute -top-2 right-1 text-app-grey-white bg-green-400 px-1 rounded-full text-sm font-bold">new!</span>)
         }
-        <p  className='break-all'>
+        <p className='break-all'>
           {Statement}
         </p>
         <div className="flex justify-between gap-x-4 gap-y-1 flex-wrap xs:text-xs sm:text-sm text-app-grey">
@@ -48,6 +49,7 @@ const presentView = (res: [APIMsg, number]) => {
 // component
 const MSGIndex = () => {
   const user = useSomeContext(); // session user admin (object[]) | student (null)
+  const userAlert = useSomeAlert(); // session user admin (object[]) | student (null)
 
   const [set, isSet] = useState(false);
   const [msg, isMsg] = useState('');
@@ -56,6 +58,12 @@ const MSGIndex = () => {
   const btn_ref = useRef<HTMLButtonElement>(null);
   const [state, msgAction] = useFormState(Message, undefined);
 
+  useEffect(() => {
+    setState(userAlert)
+
+  }, [])
+
+  /*
   useEffect(() => {
     fetch(`http://localhost:3000/messages/api`, {
       method: "GET",
@@ -82,7 +90,7 @@ const MSGIndex = () => {
       console.error(e.message)
     })
 
-  }, [])
+  }, []) */
   
   const heightMaximiser = () => {
     if (ref.current) {

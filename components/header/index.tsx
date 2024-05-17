@@ -8,6 +8,7 @@ import { propsType } from "@/types/aside-menu";
 import EditIcon from "@/icons/edit.icon";
 import { ReactNode } from "react";
 import { useSomeContext } from "@/app/lib/server/context-provider";
+import { useSomeAlert } from "@/app/lib/server/alert-provider";
 
 const links = [
   { path: "/", name: "Dashboard" },
@@ -22,6 +23,7 @@ const links = [
 export const HeaderIndex =  ({value, stateToggle, stateModal}: propsType) => {
 
   const user = useSomeContext(); // session user admin (object[]) | student (null)
+  const userAlert = useSomeAlert(); // session user admin (object[]) | student (null)
 
   const pathname = usePathname();
   
@@ -35,7 +37,7 @@ export const HeaderIndex =  ({value, stateToggle, stateModal}: propsType) => {
             {links[i].name}
           </Link>
           {/* new message indicator from Admin(s) */}
-          { (links[i].name === "Messages") && <InboxIcon /> }
+          { ((links[i].name === "Messages") && userAlert[1] !== 0) && <InboxIcon val={userAlert[1]} /> }
         </li>
       );
     }
