@@ -1,6 +1,11 @@
-import { APIVotes } from "@/types/api-vote"
+"use client"
 
-const apiPersons:APIVotes = {
+import { usePastStudentsCaller } from "@/app/lib/server/past-provider";
+import { APIVotes } from "@/types/api-vote"
+import { useEffect, useState } from "react";
+
+/*
+const apiPersons: APIVotes = {
   Session: [
     {
       year: "2023/2024",
@@ -46,10 +51,11 @@ const apiPersons:APIVotes = {
     },
   ]
 }
+*/
 
-const totalApiSession = apiPersons.Session;
-const voteTable = (nextSession:number) => {
-  const totalApiPersons = totalApiSession[nextSession].candidates;
+// const totalApiSession = apiPersons.Session;
+const voteTable = (nextSession: number, { Session }: APIVotes) => {
+  const totalApiPersons = Session[nextSession].candidates;
   const cellNodeElement:React.ReactNode[] = [];
   for (let k = 0; k < totalApiPersons.length; k++) {
     let i = k;
@@ -59,10 +65,10 @@ const voteTable = (nextSession:number) => {
           <tr key={j}>
             <th rowSpan={totalApiPersons[i].Names.length}>{totalApiPersons[i].PortFolio}</th>
             <td>{totalApiPersons[i].Names[j]}</td>
-            <td>{totalApiPersons[i].NumVotes[j]}</td>
+            <td>{totalApiPersons[i].Votes[j]}</td>
             <td rowSpan={totalApiPersons[i].Names.length}>{totalApiPersons[i].NumVoters}</td>
             <td rowSpan={totalApiPersons[i].Names.length}>{totalApiPersons[i].NumRegVoters}</td>
-            <td>{totalApiPersons[i].Winner[j]}</td>
+            <td>{totalApiPersons[i].Position[j]}</td>
           </tr>
         );
       }
@@ -70,8 +76,8 @@ const voteTable = (nextSession:number) => {
         cellNodeElement.push(
           <tr key={j}>
             <td>{totalApiPersons[i].Names[j]}</td>
-            <td>{totalApiPersons[i].NumVotes[j]}</td>
-            <td>{totalApiPersons[i].Winner[j]}</td>
+            <td>{totalApiPersons[i].Votes[j]}</td>
+            <td>{totalApiPersons[i].Position[j]}</td>
           </tr>
         );
       }
@@ -79,12 +85,13 @@ const voteTable = (nextSession:number) => {
   }
   return cellNodeElement;
 }
-const voteTableTest = () => {
-  const cellNodeElementTest:React.ReactNode[] = [];
-  for (let h = 0; h < totalApiSession.length; h++) {
+const voteTableTest = (totalApiSession: APIVotes) => {
+  const { Session } = totalApiSession
+  const cellNodeElementTest: React.ReactNode[] = [];
+  for (let h = 0; h < Session.length; h++) {
     cellNodeElementTest.push(
       <details key={h} className="mb-6 p-2 pb-4 shadow-md bg-app-white rounded-md hover:-translate-y-1 transition-all duration-75">
-        <summary className="xs:text-lg md:text-xl leading-[1.875rem] outline-none">{totalApiSession[h].year} Academic Session</summary>
+        <summary className="xs:text-lg md:text-xl leading-[1.875rem] outline-none">{Session[h].year} Academic Session</summary>
         <div className="overflow-x-auto pb-4">
           <table className="def-table text-center xs:w-[40rem] xp:w-[50rem] mt-14 bg-app-white text-base mx-auto">
             <thead className="border-y border-app-grey">
@@ -99,7 +106,7 @@ const voteTableTest = () => {
             </thead>
             <tbody className="bg-app-grey-white">
               {
-                voteTable(h)
+                voteTable(h, totalApiSession)
               }
             </tbody>
           </table>
@@ -113,12 +120,20 @@ const voteTableTest = () => {
 // component
 const PastElectIndex = () => {
 
+  const userPastStudents = usePastStudentsCaller(); // session user (admin | student) students
+  const [isState, setState] = useState<APIVotes>(); // prompt icon
+
+  useEffect(() => {
+    setState(userPastStudents)
+  }, [])
+
   return (
     <section className="xs:pt-6 sm:pt-10 pb-14 px-2 max-w-[80vw] ">
       <h2 className="font-bold xs:text-2xl sm:text-3xl lg:text-[2.5rem] lg:leading-[3rem] mb-6 text-app-primary ">Past Elections</h2>
-      {
-        voteTableTest()
-      }
+      { (!isState) && <span className='xs:text-xs xp:text-sm md:text-base pl-4 font-bold'>Loading...</span> }
+        { isState && 
+          voteTableTest(isState)
+        }
     </section>
   )
 }

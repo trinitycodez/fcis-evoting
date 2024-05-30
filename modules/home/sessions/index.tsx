@@ -63,7 +63,12 @@ const contestantFunc = () => {
   return cellNodeElementTest;
 }
 
+// component
 const VoteCandidatePage = () => {
+  // const user = useSomeContext(); // session user admin (object[]) | student (null)
+  // const { admin_stds }: jsonObj = JSON.parse(user); // together
+  // const userAlert = useSomeAlert(); // session user (admin | student) alert
+
   return (
     <section className="xs:py-6 sm:py-10 px-2">
       <div className="flex flex-col justify-center items-center w-full font-bold">

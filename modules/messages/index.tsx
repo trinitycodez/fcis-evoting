@@ -6,6 +6,7 @@ import { useSomeContext } from '@/app/lib/server/context-provider';
 import { useFormState } from 'react-dom';
 import { Message } from '@/app/lib/server/validate-message/submit';
 import { useSomeAlert } from '@/app/lib/server/alert-provider';
+import { jsonObj } from '@/types/all-user';
 
 
 const presentView = (res: [APIMsg, number]) => {
@@ -22,13 +23,15 @@ const presentView = (res: [APIMsg, number]) => {
     )
     return eachMsg;
   }
+
   for (let i = 0; i < totalApiMessages.length; i++) {
+    console.log(res[1])
     const { MessageDate, Statement, ID } = totalApiMessages[i];
      eachMsg.push(
       <div key={i} className="flex flex-col relative w-fit p-4 pt-6 text-app-primary gap-6 bg-app-white shadow-lg rounded-md">
         {/* Announcer of new messages */}
         {
-          (i <= res[1]) && (
+          (i < res[1]) && (
           <span className="flex absolute -top-2 right-1 text-app-grey-white bg-green-400 px-1 rounded-full text-sm font-bold">new!</span>)
         }
         <p className='break-all'>
@@ -49,48 +52,20 @@ const presentView = (res: [APIMsg, number]) => {
 // component
 const MSGIndex = () => {
   const user = useSomeContext(); // session user admin (object[]) | student (null)
-  const userAlert = useSomeAlert(); // session user admin (object[]) | student (null)
+  const { admin_stds }: jsonObj = JSON.parse(user); // together
+  const userAlert = useSomeAlert(); // session user (admin | student) alert
 
   const [set, isSet] = useState(false);
-  const [msg, isMsg] = useState('');
-  const [isState, setState] = useState<[APIMsg, number]>();
+  const [msg, setMsg] = useState('');
+  const [isState, setState] = useState<[APIMsg, number]>(); // prompt icon
   const ref = useRef<HTMLTextAreaElement>(null);
   const btn_ref = useRef<HTMLButtonElement>(null);
   const [state, msgAction] = useFormState(Message, undefined);
 
   useEffect(() => {
     setState(userAlert)
-
   }, [])
 
-  /*
-  useEffect(() => {
-    fetch(`http://localhost:3000/messages/api`, {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        'API-Key': process.env.AUTH_SECRET!,
-        'Origin': process.env.NEXT_AUTH_URL!,
-        'Access-Control-Request-Headers': 'X-PINGOTHER, Content-Type',
-        'Access-Control-Request-Method': 'GET'
-      }
-    })
-    .then((res) =>
-      res.json()
-    )
-    .then((res) => {
-      const { Session } = res as APIMsg
-      const localDataLength = Session.messages.length;
-      const getLocalDataLength: number = +localStorage.getItem('_alert_msg')!;
-      const diff = localDataLength - getLocalDataLength
-      localStorage.setItem('_alert_msg', localDataLength.toString());
-      setState([res, diff])
-    })
-    .catch((e: Error) => {
-      console.error(e.message)
-    })
-
-  }, []) */
   
   const heightMaximiser = () => {
     if (ref.current) {
@@ -131,6 +106,7 @@ const MSGIndex = () => {
   if (state?.message === 'Success') {
     'use server'
     state.message = '';
+    setMsg('')
     alert("Successfully sent this message");
   } else if (state?.message === 'Error') {
     'use server'
@@ -139,7 +115,7 @@ const MSGIndex = () => {
   }
 
   const displayClear = () => {
-    if (ref.current?.value) { isMsg(ref.current!.value) }
+    if (ref.current?.value) { setMsg(ref.current!.value) }
     setTimeout(() => {
       ref.current!.value = ''
       ref.current!.rows = 1
@@ -164,7 +140,7 @@ const MSGIndex = () => {
       </div>
 
       {
-        (user !== 'null') && (
+        (admin_stds.matricNumber !== 'null') && (
           <form method="POST" action={ (formData) => { msgAction(formData) }} onSubmit={displayClear} className='flex flex-row justify-center items-end mt-16 sm:mb-24 lg:mb-40'>
             <div className={`flex w-[38rem] items-center relative rounded-3xl overflow-hidden bg-app-white ${set ? "shadow-app-message": ""}`}>
               <textarea id='message' name="message" rows={1}

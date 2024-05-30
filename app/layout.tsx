@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import { ContextProvider } from "./lib/server/context-provider";
-import { updateSession, verifySession } from "./lib/server/session";
+import { verifySession } from "./lib/server/session";
 import { redirect } from "next/navigation";
 import { SessionValidate } from "@/types/api-session";
 import { PrismaClient } from "@prisma/client";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
+import { LoginProvider } from "./lib/server/login-provider";
 
 export const runtime = 'nodejs';
 
@@ -16,18 +17,16 @@ export const metadata: Metadata = {
   keywords: "FCIS, CIS, CISSA, E-voting, Internet voting, CISSA online voting",
 };
 
-const prisma = new PrismaClient();
+export const prisma = new PrismaClient(); // export this
 
 const RootLayout = async ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-
   const hd = headers();
   const path = hd.get('X_path')
-  console.log('pathing ', path) // /*:path
-  
+  console.log('pathing ', path)
 
   if ((path === '/auth/sign-up') ||
     (path === '/auth/login')) {
@@ -42,17 +41,18 @@ const RootLayout = async ({
   } else if (
     (path === '/messages') ||
     (path === '/past-elections') ||
-    (path === '/student') ||
+    (path === '/students') ||
     (path === '/about') ||
-    (path === '/')) {    
+    (path === '/')) {
       redirect('/auth/sign-up')
 
   } else {
     // if ((res === null)) redirect('/auth/sign-up');
-    updateSession();
     const res = await verifySession();
-  
+    const state = cookies().get('message')?.value
+    
     if ((res !== null)) {
+      // state messages
       console.log("Value ", res);
       const { userMatric }: SessionValidate = res;
       const __def_user = await prisma.admin.findFirst({
@@ -63,12 +63,32 @@ const RootLayout = async ({
           MatricNumber: true
         }
       });
+
+      const __def_general = await prisma.student.findUnique({
+        where: {
+          MatricNumber: userMatric
+        },
+        select: {
+          Name: true,
+          PostalName: true,
+          Passport: true
+        }
+      });
+
+      const jsonObj = {
+        admin_stds: __def_user,
+        others: __def_general
+      }
+
+      const jsonValue = JSON.stringify(jsonObj);
       
       return (
         <html lang="en">
           <body className="flex justify-end min-w-[320px] max-w-[1440px] h-screen overflow-y-scroll font-App-Inter text-base text-app-text-sub z-10 relative ">
-            <ContextProvider valuePass={`${__def_user}`} >
-              {children}
+            <ContextProvider valuePass={`${jsonValue}`}>
+              <LoginProvider valuePass={`${state}`}>
+                { children }
+              </LoginProvider>
             </ContextProvider>
           </body>
         </html>
@@ -82,11 +102,8 @@ const RootLayout = async ({
           </body>
         </html>
       );
-
-    }
-  
+    }  
   }
-  
 }
 
 export default RootLayout

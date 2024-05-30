@@ -23,6 +23,8 @@ model contestant {
   Vote         Int      @default(0)
   Position     String?  @db.VarChar(10)
   VoteTime     DateTime @db.DateTime(0)
+  Year         String?  @db.VarChar(4)
+  Name         String   @db.VarChar(100)
   student      student  @relation(fields: [MatricNumber], references: [MatricNumber], onUpdate: Restrict, map: "contestant_ibfk_1")
 
   @@index([MatricNumber], map: "MatricNumber")

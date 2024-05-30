@@ -7,6 +7,7 @@ import { initialState, reducer } from '@/types/validate';
 import { useFormState, useFormStatus } from 'react-dom';
 import { Login } from '@/app/lib/server/validate-login/login';
 import { useRouter } from 'next/navigation';
+import { useLoginContext } from '@/app/lib/server/login-provider';
 
 // component
 const LoginIndex = () => {
@@ -19,6 +20,7 @@ const LoginIndex = () => {
   const [state, login] = useFormState(Login, undefined);
   const { pending } = useFormStatus();
   const router = useRouter();
+  const loginContext = useLoginContext();
 
   const clearData = () => {
     setTimeout(() => {
@@ -29,12 +31,12 @@ const LoginIndex = () => {
     }, 300);
   }
 
-  if (state?.message === 'Success') {
+  if ((state?.messageServer === 'Success') || loginContext === 'Success') {
     'use server'
     router.replace('/')
-  } else if (state?.message === 'Error') {
+  } else if ((state?.messageServer === 'Error') || loginContext === 'Error') {
     'use server'
-    state.message = '';
+    if (state) state.messageServer = '';
     alert("Unable to login this account. Kindly check your internet connection or try again.");
   }
 

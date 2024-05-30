@@ -17,22 +17,22 @@ export const middleware = async (req: NextRequest) => {
         switch (path) {
             case '/':
                 NextResponse.redirect(new URL('/', req.nextUrl))
-                break;
+                return;
             case '/messages':
                 NextResponse.redirect(new URL('/messages', req.nextUrl))
-                break;
+                return;
             case '/past-elections':
                 NextResponse.redirect(new URL('/past-elections', req.nextUrl))
-                break;
+                return;
             case '/about':
                 NextResponse.redirect(new URL('/about', req.nextUrl))
-                break;
+                return;
             case '/students':
                 NextResponse.redirect(new URL('/students', req.nextUrl))
-                break;
+                return;
                 
             default:
-                break;
+                return;
         }        
     }
     
@@ -45,5 +45,5 @@ export const middleware = async (req: NextRequest) => {
 }
 
 export const config = {
-    matcher: [ '/((?!api|assets|auth|_next/static|_next/image|favicon.ico).*)' ]
+    matcher: [ '/((?!api|assets|auth|session-api|modal-api|_next/static|_next/image|favicon.ico).*)' ]
 }

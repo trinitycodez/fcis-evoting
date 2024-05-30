@@ -2,12 +2,21 @@ export interface APIStudents {
     Current: {
         Department: string,
         Students: {
-            id: number,
-            matricNo: string,
-            name: string,
-            level: string,
-            position?: string,
-            gender: string
+            ID: number,
+            MatricNumber: string,
+            Name: string,
+            LevelClass: string,
+            PortFolio?: string,
+            Gender: string,
+            Department?: string
         }[],
     }[],
+}
+
+export enum STUDENTS {
+    'Computer Science',
+    'Information Technology',
+    'Library and Information Science',
+    'Mass Communication',
+    'Telecommunication Science'
 }

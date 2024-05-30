@@ -54,7 +54,14 @@ export const ModalFormSchema = z.object({
 export const MessageFormSchema = z.object({
     msg: z
         .string()
-        .min(3, { message: 'Be at least 5 characters long.' })
+        .min(3, { message: 'Be at least 3 characters long.' })
+        .trim(),
+})
+
+export const CandidatesFormSchema = z.object({
+    nominee: z
+        .string()
+        .min(3, { message: 'Be at least 3 characters long.' })
         .trim(),
 })
 
@@ -66,6 +73,7 @@ export type FormState =
                 password?: string[]
                 nickname?: string[]
                 msg?: string[]
+                nominee?: string[]
             }
             message?: string
         }

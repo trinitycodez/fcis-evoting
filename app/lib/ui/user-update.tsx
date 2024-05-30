@@ -1,19 +1,19 @@
-'use client'
+"use client"
 import { initialState, reducer } from "@/types/validate";
-import { FC, useReducer, useRef } from "react"
+import { useContext, useReducer, useRef } from "react"
 import { useFormState, useFormStatus } from "react-dom";
 import { Update } from "../server/update/update-acct";
 import { useRouter } from "next/navigation";
+import { UserContext } from "@/app/(student)/template";
 
-const UserUpdate: FC = () => {
+const UserUpdate = () => {
   const [values, dispatch] = useReducer(reducer, initialState)
   const {image, postalName, postalNameMsg, userImgMsg} = values;
   const postalNameRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLInputElement>(null);
   const [state, update_acct] = useFormState(Update, undefined)
   const { pending } = useFormStatus();
-  const router = useRouter()
-
+  const router = useRouter();
 
   const clearData = () => {
     setTimeout(() => {
@@ -23,13 +23,18 @@ const UserUpdate: FC = () => {
       })
     }, 300);
   }
-
+  
+  const {value, setValue} = useContext(UserContext);
+  const changestate = () => {
+    setValue(!value);
+  }
 
   if (state?.message === 'Success') {
     'use server'
     state.message = '';
     alert("You've successfully updated this account.");
-    router.replace('/auth/login');
+    changestate();
+    router.refresh();
   } else if (state?.message === 'Error') {
     'use server'
     state.message = '';
@@ -49,7 +54,7 @@ const UserUpdate: FC = () => {
             payload: `${postalNameRef.current?.value}`
           })}} />
         </div>
-        { state?.errors?.nickname && 
+        { (state?.errors?.nickname) && 
         <span className="flex h-fit text-xs text-red-500 w-full -mt-3 ml-[0.15rem] mb-4 ">
           {state.errors.nickname}
         </span> }
@@ -66,7 +71,7 @@ const UserUpdate: FC = () => {
             payload: `${imageRef.current?.value}`
           })}} />
         </div>
-        { state?.errors?.passport && 
+        { (state?.errors?.passport) && 
         <span className="flex h-fit text-xs text-red-500 w-full -mt-3 ml-[0.15rem] mb-8 ">
           {state.errors.passport}
         </span> }

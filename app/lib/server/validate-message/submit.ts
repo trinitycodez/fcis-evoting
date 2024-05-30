@@ -108,7 +108,7 @@ export async function Message(state: FormState, formData: FormData) {
     if (!validatedFields.success) {
         console.log(validatedFields.error)
         return {
-        errors: validatedFields.error.flatten().fieldErrors,
+            errors: validatedFields.error.flatten().fieldErrors,
         }
     }
 

@@ -55,6 +55,7 @@ export async function Login(state: FormState, formData: FormData) {
       throw data.message
     }
     const date = new Date( Date.now() + 7 * 24 * 60 * 60 * 1000 )
+    const dateMsg = new Date( Date.now() + 60 * 1000 )
     
     console.log('came back');
     cookies().set('session', sessionValue, {
@@ -64,15 +65,31 @@ export async function Login(state: FormState, formData: FormData) {
       sameSite: 'strict',
       path: '/'
     });
-
+    cookies().set('message', 'Success', {
+      httpOnly: true,
+      secure: true,
+      expires: dateMsg,
+      sameSite: 'strict',
+      path: '/auth/login'
+    });
+    
+    
     return {
-      message: message,
+      messageServer: message,
     }
     
   } catch (error: any) {
+    const dateMsg = new Date( Date.now() + 60 * 1000 )
+    cookies().set('message', 'Error', {
+      httpOnly: true,
+      secure: true,
+      expires: dateMsg,
+      sameSite: 'strict',
+      path: '/auth/login'
+    });
     const err: string = error;
     return {
-      message: err,
+      messageServer: err,
     }
   }
 }

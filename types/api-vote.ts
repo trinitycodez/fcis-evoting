@@ -4,11 +4,24 @@ export interface APIVotes {
         candidates: {
             PortFolio: string,
             Names: string[],
-            NumVotes: number[],
+            Votes: number[],
             NumVoters: number,
             NumRegVoters: number,
-            Winner: string[],
+            Position: string[],
             Total?: number,
         }[],
     }[],
+}
+
+export enum POSITIONS {
+    "Assistant General Secretary",
+    "Financial Secretary",
+    "General Secretary",
+    "President",
+    "Public Relations Officer",
+    "Social Secretary",
+    "Software Director",
+    "Sport Director",
+    "Vice President",
+    "Welfare Secretary",
 }

@@ -6,9 +6,11 @@ import HamburgerMenu from "@/icons/hamburger.icon";
 import InboxIcon from "@/icons/inbox.icon";
 import { propsType } from "@/types/aside-menu";
 import EditIcon from "@/icons/edit.icon";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useSomeContext } from "@/app/lib/server/context-provider";
 import { useSomeAlert } from "@/app/lib/server/alert-provider";
+import { APIMsg } from "@/types/api-msg";
+import { jsonObj } from "@/types/all-user";
 
 const links = [
   { path: "/", name: "Dashboard" },
@@ -19,25 +21,31 @@ const links = [
   { path: "/auth/sign-up", name: "Logout"},
 ];
 
-// component, return to the home modules index
+// Component, returned to the home modules index
 export const HeaderIndex =  ({value, stateToggle, stateModal}: propsType) => {
 
   const user = useSomeContext(); // session user admin (object[]) | student (null)
-  const userAlert = useSomeAlert(); // session user admin (object[]) | student (null)
+  const { admin_stds, others }: jsonObj = JSON.parse(user); // together
+  const { Name, PostalName, Passport } = others;
+  const userName = Name.replace(',', '').toLocaleUpperCase()
+
+  const userAlert = useSomeAlert(); // session APIMsg & number (admin | student) alert
+  const [isState, setState] = useState<[APIMsg, number]>(); // prompt icon
 
   const pathname = usePathname();
   
-  const user__DEFF = () => {
+  const user__DEFF = (res: [APIMsg, number]) => {
     const arr: ReactNode[] = [];
     for (let i = 0; i < links.length; i++) {
-      if (i === 4 && (user === 'null')) continue; // user a Student
+      // if (i === 4 && (user === 'null')) continue; // user a Student
+      if (i === 4 && (admin_stds.matricNumber === 'null')) continue; // user a Student
       arr.push(
         <li key={i+1} className={`flex items-center relative hover:border-l-2 rounded-tl-sm rounded-bl-sm hover:bg-app-light-primary/60 hover:text-app-text-sub hover:border-l-app-yellow hover:font-bold p-1 transition-all duration-75 ${pathname === links[i].path ? "font-bold border-l-2 border-l-app-yellow bg-app-light-primary/60 text-app-text-sub":""} `}>
           <Link href={links[i].path}>
             {links[i].name}
           </Link>
           {/* new message indicator from Admin(s) */}
-          { ((links[i].name === "Messages") && userAlert[1] !== 0) && <InboxIcon val={userAlert[1]} /> }
+          { ((links[i].name === "Messages") && res[1] !== 0) && <InboxIcon val={res[1]} /> }
         </li>
       );
     }
@@ -47,6 +55,10 @@ export const HeaderIndex =  ({value, stateToggle, stateModal}: propsType) => {
   const toggleMenu = () => stateToggle(!value);
   const modalFunc = () => stateModal(true);
 
+  useEffect(() => {
+    setState(userAlert)
+  }, [])
+  
 
   return (
     <>
@@ -62,16 +74,16 @@ export const HeaderIndex =  ({value, stateToggle, stateModal}: propsType) => {
           {/* do not forget username should only present maximum of two whitespaces */}
           <div className="flex flex-wrap max-w-[18.5rem]">
             <span className="inline-flex w-full font-bold xs:text-base sm:text-lg leading-6 break-keep">
-              OLOWOYORI EMMANUEL TAIWO
+              {userName}
             </span>
-            <span className="w-full text-app-grey font-normal xs:text-sm` sm:text-base ">(Trinity)</span>
+            <span className="w-full text-app-grey font-normal xs:text-sm` sm:text-base ">({ PostalName })</span>
           </div>
         </div>
         <div className="px-4 py-6 flex flex-col justify-between border-t border-app-grey ">
           {/* navigations at the side-bar */}
           <ul className="flex flex-col list-none gap-1 font-normal xs:text-base sm:text-lg">
             {
-              user__DEFF()
+              (isState) && user__DEFF(isState)
             }
           </ul>
         </div>

@@ -1,3 +1,4 @@
+import { PastStudentProvider } from "@/app/lib/server/past-provider"
 import PastElectIndex from "@/modules/past-elections"
 import { Metadata, NextPage } from "next"
 
@@ -7,7 +8,9 @@ export const metadata: Metadata = {
 
 const PastElections:NextPage = () => {
   return (
-    <PastElectIndex />
+    <PastStudentProvider>
+      <PastElectIndex />      
+    </PastStudentProvider>
   )
 }
 

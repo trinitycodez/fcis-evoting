@@ -1,6 +1,7 @@
 "use server";
 
 import { ModalFormSchema, FormState } from "../formvalidator";
+import { verifySession } from "../session";
 
 interface res {
   message: string,
@@ -11,8 +12,8 @@ export async function Update(state: FormState, formData: FormData) {
     // This is for updating the user profile
     console.log("did something here");
     const validatedFields = ModalFormSchema.safeParse({
-      nickname: formData.get('nickname'),
-      passport: formData.get('passport')
+      nickname: formData.get('postalName'),
+      passport: formData.get('userImage')
     })
 
     // If any form fields are invalid, return early
@@ -29,12 +30,17 @@ export async function Update(state: FormState, formData: FormData) {
   const buffer = Buffer.from(bytes);
   console.log(buffer);
 
+  // verify user 
+  const { userMatric } = await verifySession() as {isAuth: boolean, userMatric: string};
+
+
   // Call the provider or db to create a user...
   try {
     const { nickname, passport } = validatedFields.data
     const userData = {
       nickname: nickname,
       passport: passport,
+      matricNum: userMatric
     }
     const mainData = JSON.stringify(userData);
 
@@ -55,6 +61,7 @@ export async function Update(state: FormState, formData: FormData) {
     if (data.status === 401) {
       throw data.message;
     }
+    console.log('came back ')
     return {
       message: data.message,
     }
