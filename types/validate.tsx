@@ -5,9 +5,11 @@ export const initialState:initialType = {
   image: "",
   password: "",
   postalName: "",
+  timerFrom: "",
+  timerTo: "",
 }
 
-export const reducer = (state:initialType, action:actionType):initialType => {
+export const reducer = (state: initialType, action: actionType): initialType => {
   switch (action.type) {
     case "ALL":
       return {...initialState};
@@ -94,6 +96,40 @@ export const reducer = (state:initialType, action:actionType):initialType => {
         ...state,
         password: action.payload.trim(),
         pwd_message: ""
+      };
+    case "TIMER-FROM":
+      const timerFrom = action.payload.length;
+      console.log(timerFrom);
+      if (((timerFrom < 5) || (timerFrom > 5)) && (timerFrom !== 0)) {
+        document.querySelector("#timerFrom")!.ariaInvalid = "true";
+        return {
+          ...state,
+          timerFrom: action.payload,
+          timerFromMsg: 'Invalid input timestamp'
+        };
+      }
+      document.querySelector("#timerFrom")!.ariaInvalid = "false";
+      return {
+        ...state,
+        timerFrom: action.payload,
+        timerFromMsg: ''
+      };
+    case "TIMER-TO":
+      const timerTo = action.payload.length;
+      console.log(timerTo);
+      if (((timerTo < 5) || (timerTo > 5)) && (timerTo !== 0)) {
+        document.querySelector("#timerTo")!.ariaInvalid = "true";
+        return {
+          ...state,
+          timerTo: action.payload,
+          timerToMsg: 'Invalid input timestamp'
+        };
+      }
+      document.querySelector("#timerTo")!.ariaInvalid = "false";
+      return {
+        ...state,
+        timerTo: action.payload,
+        timerToMsg: ''
       };
 
     default:

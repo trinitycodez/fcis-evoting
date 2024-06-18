@@ -140,7 +140,7 @@ const MSGIndex = () => {
       </div>
 
       {
-        (admin_stds.matricNumber !== 'null') && (
+        (admin_stds.matricNumber !== null) && (
           <form method="POST" action={ (formData) => { msgAction(formData) }} onSubmit={displayClear} className='flex flex-row justify-center items-end mt-16 sm:mb-24 lg:mb-40'>
             <div className={`flex w-[38rem] items-center relative rounded-3xl overflow-hidden bg-app-white ${set ? "shadow-app-message": ""}`}>
               <textarea id='message' name="message" rows={1}

@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface jsonObj {
     admin_stds: {
         matricNumber: string
@@ -5,6 +7,6 @@ export interface jsonObj {
     others: {
         Name: string;
         PostalName: string | null;
-        Passport: Buffer | null;
+        Passport: Buffer | string | null;
     }
 }

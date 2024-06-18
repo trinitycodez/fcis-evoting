@@ -74,10 +74,28 @@ const RootLayout = async ({
           Passport: true
         }
       });
+      const totalReg = await prisma.student.count({
+        where: {
+          Registered: true
+        }
+      })
+      
+      const sendIMG = () => {
+        let loadImg: string = ''
+        if (__def_general?.Passport) {
+          const arr = new Uint8Array(__def_general.Passport!)
+          let l = btoa(arr.reduce((data, byte) => data + String.fromCharCode(byte), ''));
+          loadImg = `data:image/png;base64,${l}`
+        }
+        return loadImg
+      }
 
       const jsonObj = {
         admin_stds: __def_user,
-        others: __def_general
+        others: {
+          ...__def_general,
+          Passport: sendIMG()
+        }
       }
 
       const jsonValue = JSON.stringify(jsonObj);
@@ -85,7 +103,8 @@ const RootLayout = async ({
       return (
         <html lang="en">
           <body className="flex justify-end min-w-[320px] max-w-[1440px] h-screen overflow-y-scroll font-App-Inter text-base text-app-text-sub z-10 relative ">
-            <ContextProvider valuePass={`${jsonValue}`}>
+            <ContextProvider valuePass={`${jsonValue}`} total={totalReg}>
+            {/* <ContextProvider valuePass={`${jsonValue}`}> */}
               <LoginProvider valuePass={`${state}`}>
                 { children }
               </LoginProvider>

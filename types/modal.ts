@@ -1,4 +1,5 @@
 export interface modalPropsType {
     value: boolean,
-    setValue: (val: boolean) => void;
+    num: string,
+    setValue: (val: boolean, numChange: string) => void;
 }

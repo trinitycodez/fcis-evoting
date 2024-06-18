@@ -1,18 +1,18 @@
 "use server"
 
-import { DAYS, MONTHS } from "@/types/api-msg";
-import { FormState, MessageFormSchema } from "../formvalidator";
+import { FormState } from "../formvalidator";
 import { verifySession } from "../session";
 import { SessionValidate } from "@/types/api-session";
 import { redirect } from "next/navigation";
+import { DAYS, MONTHS } from "@/types/api-msg";
 
 interface res {
     message: string,
     status: number
 }
 
+const fullDate = new Date(Date.now());
 const DateTime = (): string => {
-    const fullDate = new Date(Date.now());
     // let year = fullDate.getFullYear().toString()
     let month: string|number = fullDate.getMonth() // month 0
     let day: string|number = fullDate.getDay() // sun 0
@@ -96,39 +96,44 @@ const DateTime = (): string => {
     }
 }
 
-
-export async function Message(state: FormState, formData: FormData) {
+export async function VotedCandidates(state: FormState, formData: FormData) {
 
     // Validate form fields
-    const validatedFields = MessageFormSchema.safeParse({
-        msg: formData.get('message')
-    })
+    const validatedFields = {
+        president: (formData.get('President') !== null) ? formData.get('President') : '',
+        vicePresident: (formData.get('Vice_President') !== null) ? formData.get('Vice_President') : '',
+        genSec: (formData.get('General_Secretary') !== null) ? formData.get('General_Secretary') : '',
+        asstGenSec: (formData.get('Assistant_General_Secretary') !== null) ? formData.get('Assistant_General_Secretary') : '',
+        finSec: (formData.get('Financial_Secretary') !== null) ? formData.get('Financial_Secretary') : '',
+        welfareSec: (formData.get('Welfare_Secretary') !== null) ? formData.get('Welfare_Secretary') : '',
+        sportDir: (formData.get('Sport_Director') !== null) ? formData.get('Sport_Director') : '',
+        socSec: (formData.get('Social_Secretary') !== null) ? formData.get('Social_Secretary') : '',
+        software: (formData.get('Software_Director') !== null) ? formData.get('Software_Director') : '',
+        pro: (formData.get('Public_Relations_Officer') !== null) ? formData.get('Public_Relations_Officer') : ''
+    }
 
     // If any form fields are invalid, return early
-    if (!validatedFields.success) {
-        console.log(validatedFields.error)
-        return {
-            errors: validatedFields.error.flatten().fieldErrors,
-        }
-    }
+    const { president, vicePresident, genSec, asstGenSec, finSec, welfareSec, socSec, sportDir, software, pro } = validatedFields;
 
     const res = await verifySession();
     if (res === null) redirect('/auth/sign-up');
     const { userMatric }: SessionValidate = res;
+    const date = DateTime();
 
-    const val = DateTime();
+
+    const rawData = JSON.stringify([president, vicePresident, genSec, asstGenSec, finSec, welfareSec, socSec, sportDir, software, pro])
     // Call the provider or db to create a user...
     try {
-    
-        const adminMsg = {
-            data: formData.get('message')?.toString(),
+        const votedCandidatesData = {
+            data: rawData,
             matricNumber: userMatric,
-            dateTime: val
+            dateTime: date,
+            timeStamp: fullDate
         }
-        const mainData = JSON.stringify(adminMsg);
+        const mainData = JSON.stringify(votedCandidatesData);
 
         console.log(mainData)
-        const res = await fetch(`${process.env.NEXT_AUTH_URL}/messages/api`, {
+        const res = await fetch(`${process.env.NEXT_AUTH_URL}/api`, {
             method: "POST",
             mode: "cors",
             headers: {

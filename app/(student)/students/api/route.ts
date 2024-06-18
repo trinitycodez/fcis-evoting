@@ -89,7 +89,8 @@ export const POST = async (req: Request) => {
                     select: {
                         ID: true,
                         MatricNumber: true,
-                        Name: true
+                        Name: true,
+                        PostalName: true
                     }
                 })
                 const checker = await prisma.contestant.findUnique({
@@ -108,7 +109,8 @@ export const POST = async (req: Request) => {
                             MatricNumber: db.MatricNumber,
                             PortFolio: value,
                             VoteTime: dateTime,
-                            Year: date
+                            Year: date,
+                            PostalName: db.PostalName
                         }
                     })
                 } else {
@@ -119,7 +121,8 @@ export const POST = async (req: Request) => {
                         data: {
                             PortFolio: value,
                             VoteTime: dateTime,
-                            Year: date                        
+                            Year: date,         
+                            PostalName: db.PostalName
                         }
                     })
                 }

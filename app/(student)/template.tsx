@@ -1,11 +1,11 @@
 "use client"
 import { usePathname } from "next/navigation";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Logo from "@/components/logo";
 import { HeaderIndex } from "@/components/header";
 import FooterIndex from "@/components/footer";
 import { ReactNode, createContext, useEffect, useState } from "react";
-import profile from "@/assets/images/ProfilePic.png";
+import avatar from "@/assets/images/avatar.svg";
 import CollapsedMenu from "@/icons/collapsed.icon";
 import DashboardIcon from "@/icons/dashboard.icon";
 import MessagesIcon from "@/icons/messages.icon";
@@ -20,7 +20,7 @@ import { useSomeContext } from "../lib/server/context-provider";
 import { AlertProvider } from "../lib/server/alert-provider";
 import { jsonObj } from "@/types/all-user";
 
-export const UserContext = createContext<modalPropsType>({value: false, setValue(val) {return}});
+export const UserContext = createContext<modalPropsType>({value: false, num: '', setValue(val, numChange) {return}});
 // do not forget to remove the list of students for it is meant for admins only
 
 export const links = [
@@ -47,11 +47,14 @@ const GeneralPage = ({ children }: { children: React.ReactNode }) => {
   const [toggle, isToggle] = useState(true); // func
   const [togLayout, isTogLayout] = useState(false); // clicker
   const [modal, isModal] = useState(false); // modal overlay
+  const [num, isNum] = useState(''); // number toggler
   
   const pathname = usePathname();
   
   const user = useSomeContext(); // session user admin (object[]) | student (null) string of json
-  const { admin_stds }: jsonObj = JSON.parse(user); // together
+  const { admin_stds, others }: jsonObj = JSON.parse(user); // together
+
+  const [userImage, setUserImage] = useState<string | StaticImageData>(avatar)
 
   const layout = () => {
     const holdVal: ReactNode[] = [];
@@ -88,6 +91,7 @@ const GeneralPage = ({ children }: { children: React.ReactNode }) => {
     // localStorage on register for received messages
     const checker = localStorage.getItem('_alert_msg')
     if (checker === null) localStorage.setItem('_alert_msg', '0');
+    if (typeof(others.Passport) === 'string') setUserImage(others.Passport);
   }, [])
   
 
@@ -95,7 +99,10 @@ const GeneralPage = ({ children }: { children: React.ReactNode }) => {
     <>
       {togLayout && (layout()) }
       {modal && (
-        <UserContext.Provider value={{value: modal, setValue: (val: boolean)=> isModal(val)}}>
+        <UserContext.Provider value={{value: modal, num: num, setValue: (val: boolean, numChange: string) => {
+          isNum(numChange)
+          isModal(val)
+        }}}>
           <ModalIndex />
         </UserContext.Provider>
       )}
@@ -105,7 +112,7 @@ const GeneralPage = ({ children }: { children: React.ReactNode }) => {
         {
           (toggle) ? 
           <div className="flex flex-col items-center p-[.35rem] py-7 xs:gap-4 lg:gap-7 ">
-            <Image src={profile} alt="profile avatar" height={40} width={40} className="rounded-full text-center mb-1 xs:h-[35px] xs:w-[35px] sm:h-10 sm:w-10 border border-app-grey" onClick={() => isModal(!modal)} />
+            <Image src={userImage} alt="Avatar" height={40} width={40} className="rounded-full text-center mb-1 xs:h-[35px] xs:w-[35px] sm:h-10 sm:w-10 border border-app-grey" onClick={() => isModal(!modal)} />
             <CollapsedMenu width={27} height={27} onClick={() => clicker(!toggle) } />
             {
               user__DEF()
@@ -113,7 +120,10 @@ const GeneralPage = ({ children }: { children: React.ReactNode }) => {
           </div> :
           <>
             <AlertProvider>
-              <HeaderIndex value={toggle} stateToggle={(val: boolean) => clicker(val)} stateModal={(val: boolean) => isModal(val)} />
+              <HeaderIndex value={toggle} stateToggle={(val) => clicker(val)} stateModal={(val, numChange) => {
+                isNum(numChange)
+                isModal(val)
+              }} />
             </AlertProvider>
             <FooterIndex />
           </>
@@ -138,7 +148,12 @@ const GeneralPage = ({ children }: { children: React.ReactNode }) => {
               ))
             }
           </header>
-          {children}
+          <UserContext.Provider value={{value: modal, num: '1', setValue: (val: boolean, numChange: string) => {
+            isNum(numChange)
+            isModal(val)
+          }}}>
+            {children}
+          </UserContext.Provider>
         </div>
       </main>
     </>

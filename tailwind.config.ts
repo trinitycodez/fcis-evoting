@@ -17,6 +17,7 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
+        original: "sans-serif",
         "App-Inter": "'Inter', sans-serif",
       },
       colors: {

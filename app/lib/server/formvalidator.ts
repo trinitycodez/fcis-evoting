@@ -44,7 +44,7 @@ export const ModalFormSchema = z.object({
     passport: z
         .any()
         .refine((files: Blob) => {
-            return !files || files.size <= MAX_UPLOAD_SIZE;
+            return (!files || files.size) <= MAX_UPLOAD_SIZE;
         }, { message: 'File size must be less than 1MB' } )
         .refine((files: Blob) => {
             return files && ACCEPTED_FILE_TYPES.includes(files.type);
@@ -65,6 +65,17 @@ export const CandidatesFormSchema = z.object({
         .trim(),
 })
 
+export const SetTimerFormSchema = z.object({
+    timerFrom: z
+        .string()
+        .length(5, { message: 'Invalid timestamp received' })
+        .trim(),
+    timerTo: z
+        .string()
+        .length(5, { message: 'Invalid timestamp received' })
+        .trim(),
+})
+
 export type FormState =
     |   {
             errors?: {
@@ -74,6 +85,8 @@ export type FormState =
                 nickname?: string[]
                 msg?: string[]
                 nominee?: string[]
+                timerFrom?: string[]
+                timerTo?: string[]
             }
             message?: string
         }

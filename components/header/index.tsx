@@ -1,7 +1,7 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
-import profile from "@/assets/images/ProfilePic.png";
+import Image, { StaticImageData } from "next/image";
+import avatar from "@/assets/images/avatar.svg";
 import HamburgerMenu from "@/icons/hamburger.icon";
 import InboxIcon from "@/icons/inbox.icon";
 import { propsType } from "@/types/aside-menu";
@@ -23,15 +23,15 @@ const links = [
 
 // Component, returned to the home modules index
 export const HeaderIndex =  ({value, stateToggle, stateModal}: propsType) => {
-
   const user = useSomeContext(); // session user admin (object[]) | student (null)
   const { admin_stds, others }: jsonObj = JSON.parse(user); // together
   const { Name, PostalName, Passport } = others;
   const userName = Name.replace(',', '').toLocaleUpperCase()
-
-  const userAlert = useSomeAlert(); // session APIMsg & number (admin | student) alert
+  
+  const userAlert = useSomeAlert();
   const [isState, setState] = useState<[APIMsg, number]>(); // prompt icon
-
+  
+  const [userImage, setUserImage] = useState<string | StaticImageData>(avatar)
   const pathname = usePathname();
   
   const user__DEFF = (res: [APIMsg, number]) => {
@@ -53,10 +53,11 @@ export const HeaderIndex =  ({value, stateToggle, stateModal}: propsType) => {
   }
   
   const toggleMenu = () => stateToggle(!value);
-  const modalFunc = () => stateModal(true);
+  const modalFunc = () => stateModal(true, '0');
 
   useEffect(() => {
-    setState(userAlert)
+    setState(userAlert);
+    if (typeof(Passport) === 'string') setUserImage(Passport);
   }, [])
   
 
@@ -66,7 +67,7 @@ export const HeaderIndex =  ({value, stateToggle, stateModal}: propsType) => {
         <div className="px-4 py-6 flex flex-col gap-4 mb-4">
           <div className="flex justify-between items-start">
             <div className="flex relative" onClick={modalFunc}>
-              <Image src={profile} alt="profile avatar" height={40} width={40} className="rounded-full text-center mb-1 xs:h-[35px] xs:w-[35px] sm:h-10 sm:w-10 border border-app-grey " />
+              <Image src={userImage} alt="Avatar" height={40} width={40} className="rounded-full text-center mb-1 xs:h-[35px] xs:w-[35px] sm:h-10 sm:w-10 border border-app-grey " />
               <EditIcon width={20} height={20} className="absolute -right-3 bottom-1 xs:w-4 xs:h-4 sm:w-5 sm:h-5" />
             </div>
             <HamburgerMenu width={35} height={40} onClick={toggleMenu} className="xs:w-[30px] xs:h-[35px] sm:w-[35px] sm:h-[40px] " />
@@ -76,7 +77,7 @@ export const HeaderIndex =  ({value, stateToggle, stateModal}: propsType) => {
             <span className="inline-flex w-full font-bold xs:text-base sm:text-lg leading-6 break-keep">
               {userName}
             </span>
-            <span className="w-full text-app-grey font-normal xs:text-sm` sm:text-base ">({ PostalName })</span>
+            <span className="w-full text-app-grey font-normal xs:text-sm sm:text-base ">({ PostalName })</span>
           </div>
         </div>
         <div className="px-4 py-6 flex flex-col justify-between border-t border-app-grey ">

@@ -23,8 +23,9 @@ model contestant {
   Vote         Int      @default(0)
   Position     String?  @db.VarChar(10)
   VoteTime     DateTime @db.DateTime(0)
-  Year         String?  @db.VarChar(4)
+  Year         String?  @db.VarChar(10)
   Name         String   @db.VarChar(100)
+  PostalName   String?  @db.VarChar(40)
   student      student  @relation(fields: [MatricNumber], references: [MatricNumber], onUpdate: Restrict, map: "contestant_ibfk_1")
 
   @@index([MatricNumber], map: "MatricNumber")
@@ -59,21 +60,28 @@ model student {
 }
 
 model timer {
-  ID        Int      @id @default(autoincrement())
-  AdminID   Int
-  StartTime DateTime @db.DateTime(0)
-  EndTime   DateTime @db.DateTime(0)
-  admin     admin    @relation(fields: [AdminID], references: [ID], onUpdate: Restrict, map: "timer_ibfk_1")
+  ID          Int       @id @default(autoincrement())
+  AdminID     Int
+  StartTime   String?   @db.VarChar(10)
+  EndTime     String?   @db.VarChar(10)
+  StampedTime DateTime? @db.DateTime(0)
+  admin       admin     @relation(fields: [AdminID], references: [ID], onUpdate: Restrict, map: "timer_ibfk_1")
 
   @@index([AdminID], map: "AdminID")
 }
 
 model validatevote {
-  ID           Int     @id @default(autoincrement())
-  MatricNumber String  @db.VarChar(15)
-  Vote         Int     @default(0)
-  VoteTime     String  @db.VarChar(50)
-  student      student @relation(fields: [MatricNumber], references: [MatricNumber], onUpdate: Restrict, map: "validatevote_ibfk_1")
+  ID           Int      @id @default(autoincrement())
+  MatricNumber String   @db.VarChar(15)
+  Vote         Boolean? @default(false)
+  VoteTime     String   @db.VarChar(50)
+  student      student  @relation(fields: [MatricNumber], references: [MatricNumber], onUpdate: Restrict, map: "validatevote_ibfk_1")
 
   @@index([MatricNumber], map: "MatricNumber")
+}
+
+model votes {
+  ID       Int       @id @default(autoincrement())
+  Vote     String?   @db.VarChar(255)
+  VoteTime DateTime? @db.DateTime(0)
 }
