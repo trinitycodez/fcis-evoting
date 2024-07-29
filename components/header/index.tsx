@@ -19,6 +19,7 @@ const links = [
   { path: "/about", name: "About us"},
   { path: "/students", name: "Students lists"},
   { path: "/auth/sign-up", name: "Logout"},
+  { path: "/reset-password", name: "Change password"},
 ];
 
 // Component, returned to the home modules index

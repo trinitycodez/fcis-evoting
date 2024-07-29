@@ -14,7 +14,7 @@ export async function Login(state: FormState, formData: FormData) {
   console.log("did something here");
   const validatedFields = LoginFormSchema.safeParse({
     matricNum: formData.get('matricNum'),
-    password: formData.get('password')
+    password: (formData.get('password') !== null) ? formData.get('password'): formData.get('otp')
   })
 
   // If any form fields are invalid, return early
@@ -49,10 +49,10 @@ export async function Login(state: FormState, formData: FormData) {
     });
     
     const data: res = await res.json();
-    const { sessionValue, message } = data;
-    if (data.status === 401) {
-      console.log(data.status)
-      throw data.message
+    const { sessionValue, message, status } = data;
+    if (status === 401) {
+      console.log(status)
+      throw message
     }
     const date = new Date( Date.now() + 7 * 24 * 60 * 60 * 1000 )
     const dateMsg = new Date( Date.now() + 60 * 1000 )

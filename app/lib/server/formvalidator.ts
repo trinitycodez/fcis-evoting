@@ -6,7 +6,7 @@ const ACCEPTED_FILE_TYPES = ['image/png', 'image/jpeg', 'image/jpg'];
 export const SignupFormSchema = z.object({
     matricNum: z
         .string()
-        .min(8, { message: 'Be at least 8 characters long.' })
+        .min(8, { message: "Be at least 8 characters long." })
         .regex(/^[0-9]{2}(?:\/[0-9]{2}[a-z\d]+)+$/i, { message: " Characters should follow this sequence, example: 19/52HL001" })
         .trim(),
     password: z
@@ -31,8 +31,27 @@ export const LoginFormSchema = z.object({
         .trim(),
     password: z
         .string()
+        .min(6, { message: 'Be at least 6 characters long' })
+        .trim(),
+})
+
+export const ChangePasswordSchema = z.object({
+    password1: z
+        .string()
         .min(8, { message: 'Be at least 8 characters long' })
         .trim(),
+    password2: z
+        .string()
+        .min(8, { message: 'Be at least 8 characters long' })
+        .trim(),
+})
+
+export const LoginOTPFormSchema = z.object({
+    matricNum: z
+        .string()
+        .min(8, { message: 'Be at least 8 characters long.' })
+        .regex(/^[0-9]{2}(?:\/[0-9]{2}[a-z\d]+)+$/i, { message: " Characters should follow like this sequence, example: 19/52HL001" })
+        .trim()
 })
 
 export const ModalFormSchema = z.object({
@@ -82,6 +101,8 @@ export type FormState =
                 matricNum?: string[]
                 passport?: string[]
                 password?: string[]
+                password1?: string[]
+                password2?: string[]
                 nickname?: string[]
                 msg?: string[]
                 nominee?: string[]

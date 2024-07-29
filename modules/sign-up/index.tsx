@@ -38,6 +38,10 @@ const SignUpIndex = () => {
     state.message = '';
     alert("You've successfully registered this account.");
     router.replace('/auth/login');
+  } else if (state?.message === 'Signed') {
+    'use server'
+    state.message = '';
+    alert('Already registered this account, navigate to the login page and click the "Forgot password?".');
   } else if (state?.message === 'Error') {
     'use server'
     state.message = '';

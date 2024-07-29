@@ -1,6 +1,6 @@
 "server-only";
 
-import { createSession } from "@/app/lib/server/session";
+import { createSession, createOTPSession } from "@/app/lib/server/session";
 import { plainTextRes } from "@/types/prisma-sql";
 import { PrismaClient } from "@prisma/client";
 
@@ -13,11 +13,11 @@ interface typeData {
 
 export const POST = async (req: Request) => {
 
+    const holdValApi: typeData = await req.json();
+    const { matricNum, password } = holdValApi
+    console.log(holdValApi);
+    
     try {
-        const holdValApi: typeData = await req.json();
-        const { matricNum, password } = holdValApi
-        console.log(holdValApi);
-        
         const users = await prisma.student.findUnique({
             where: {
                 MatricNumber: matricNum
@@ -25,34 +25,58 @@ export const POST = async (req: Request) => {
             select: {
                 ID: true,
                 MatricNumber: true,
-                Passcode: true
+                Passcode: true,
+                OTP: true,
+                SessionUse: true
             }
         });
-
-        console.log("this is the SQL result =>", users);
         
         const res = await plainTextRes(password, users!.Passcode);
-        if ( res === true ) {
-            const cookie = await createSession(users!.MatricNumber); // create session for subsequent login
-            const res: {data: [string]} = JSON.parse(cookie)
-            const [ session ] = res.data;
-            console.log('data_bidding ', session);
-            
+       
+        console.log("this is the SQL result =>", users);
+        
+        if ( (users?.OTP === +password) && (users.SessionUse === null) ) {
             await prisma.student.update({
                 where: {
                     MatricNumber: matricNum
                 },
                 data: {
-                    SessionUse: session
+                    SessionUse: 'SignedOTP'
                 }
             });
+
+            const cookie = await createOTPSession(users!.MatricNumber); // create session for subsequent login
+            const res: {data: [string]} = JSON.parse(cookie)
+            const [ session ] = res.data;
 
             const payload = JSON.stringify({
                 message: "Success",
                 status: 200,
                 sessionValue: session
             });
+            
+            return new Response(payload, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': process.env.NEXT_AUTH_URL!,
+                    'Access-Control-Allow-Method': 'POST',
+                    'Access-Control-Allow-Headers': 'X-PINGOTHER, Content-Type',
+                    'vary': 'Origin'
+                }
+            });
 
+        } else if ((res === true) && (users?.SessionUse !== null)) {
+
+            const cookie = await createSession(users!.MatricNumber); // create session for subsequent login
+            const res: {data: [string]} = JSON.parse(cookie)
+            const [ session ] = res.data;
+            
+            const payload = JSON.stringify({
+                message: "Success",
+                status: 200,
+                sessionValue: session
+            });
+    
             return new Response(payload, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -71,7 +95,15 @@ export const POST = async (req: Request) => {
             message: "Error",
             status: 401
         });
-        return new Response(res);
+        return new Response(res, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': process.env.NEXT_AUTH_URL!,
+                'Access-Control-Allow-Method': 'POST',
+                'Access-Control-Allow-Headers': 'X-PINGOTHER, Content-Type',
+                'vary': 'Origin'
+            }
+        });
     }
 }
 

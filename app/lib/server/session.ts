@@ -27,6 +27,13 @@ export async function decrypt(session: string | undefined = '') {
     }
 }
 
+export async function createOTPSession(userMatric: string): Promise<string> {
+    const expiresAt = new Date( Date.now() + 60 * 60 * 1000 )
+    const session = await encrypt({ userMatric, expiresAt })
+
+    const res = JSON.stringify({data:[session]})
+    return res;
+}
 export async function createSession(userMatric: string): Promise<string> {
     const expiresAt = new Date( Date.now() + 7 * 24 * 60 * 60 * 1000 )
     const session = await encrypt({ userMatric, expiresAt })

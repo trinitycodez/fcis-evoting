@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Login | FCIS-Evoting",
 }
 
-const LoginPage:NextPage = () => {
+const LoginPage: NextPage = () => {
   
   return (
     <LoginIndex />

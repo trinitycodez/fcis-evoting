@@ -1,5 +1,6 @@
 "server-only"
 
+import { nodeMail } from "@/app/config/nodemailer";
 import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient();
@@ -23,16 +24,18 @@ export const POST = async (req: Request) => {
             },
             select: {
                 ID: true,
-                MatricNumber: true
+                MatricNumber: true,
                 // bring in OTP
             }
         })
-        console.log("this is the SQL result =>", id);
+        console.log("this is the SQL result => ", id);
         
         
         if ( id !== null ) {
             // test OTP plus ID up
             try {
+                const modifyMatric = id.MatricNumber.replace('/', '-').concat('@students.unilorin.edu.ng');
+
                 // to verify user voted
                 await prisma.votes.create({
                     data: {
@@ -51,6 +54,21 @@ export const POST = async (req: Request) => {
                     }
                 });
 
+                const mailOptions = {
+                    from: process.env.EMAIL,
+                    to: modifyMatric,
+                    subject: `CISSA ${dateTime}`,
+                    text: `CISSA vote message to ${id.MatricNumber}`,
+                    html: `
+                        <span>You've successfully voted</span>
+                    `
+                }
+            
+                nodeMail.sendMail(mailOptions, (error, info) => {
+                    if (error) throw error.message;
+                    console.log("Recovered", info.response);
+                });
+                
                 const payload = JSON.stringify({
                     message: "Success",
                     status: 200

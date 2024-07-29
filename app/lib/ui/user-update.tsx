@@ -35,16 +35,24 @@ const UserUpdate = () => {
 
   if ((state?.message === 'Success') || (setTimerState?.message === 'Success')) {
     'use server'
-    if (state) state.message = '';
-    if (setTimerState) setTimerState.message = '';
-    alert("You've successfully updated this account.");
+    if (state) {
+      state.message = '';
+      alert("You've successfully updated this account.");
+    } else if (setTimerState) {
+      setTimerState.message = '';
+      alert("You've successfully set timer.");
+    } 
     changestate();
     router.refresh();
   } else if ((state?.message === 'Error') || (setTimerState?.message === 'Error')) {
     'use server'
-    if (state) state.message = '';
-    if (setTimerState) setTimerState.message = '';
-    alert("Unable to update this account. Kindly check your internet connection or try again.");
+    if (state) {
+      state.message = '';
+      alert("Unable to update this account. Kindly check your internet connection or try again.");
+    } else if (setTimerState) {
+      setTimerState.message = '';
+      alert("Unable to update this timer. Kindly check your internet connection or try again.");
+    } 
   }
 
   const timeFromDefault = () => {

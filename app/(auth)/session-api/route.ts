@@ -99,7 +99,7 @@ console.log('got here')
             }
         })
                 
-        console.log("this is the SQL result =>", id);
+        console.log("this is the SQL result => ", id);
         
         if ( id !== null ) {
             await prisma.message.create({

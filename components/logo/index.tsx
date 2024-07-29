@@ -3,7 +3,7 @@ import logo from "@/assets/images/cissa.png";
 import Link from "next/link";
 import { LogoPropsType } from "@/types/logo";
 
-const Logo = ({layer}:LogoPropsType) => {
+const Logo = ({layer}: LogoPropsType) => {
   const {layerImage, layerText, layerWrapper} = layer;
   const toggleWrap = layerWrapper? "flex-col justify-center gap-4 opacity-80 ":"flex-nowrap ";
   const toggleImg = layerImage.border? "xs:w-[30rem] sm:w-[320px]":"rounded-full xs:w-[35px] xs:w-[35px] sm:w-[40px] sm:w-[40px] ";
